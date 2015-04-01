@@ -1,0 +1,22 @@
+@import '../../variables.css';
+
+section.home {
+	height: 100%;
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	input {
+		width: 500px;
+		font-size: 16px;
+		line-height: 19px;
+		padding: 5px;
+		border: solid 1px #000;
+		
+		&:focus {
+			outline:none;
+			border: solid 1px var(--themeMedium);
+		}
+	}
+}

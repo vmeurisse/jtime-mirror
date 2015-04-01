@@ -1,0 +1,148 @@
+#jtime-loader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	background-color: rgba(200, 200, 200, 0.6);
+	font-size: 30px;
+
+	.flex {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	}
+}
+
+.conway {
+	width: 40px;
+	height: 40px;
+	font-size: 0;
+	position: relative;
+	margin-bottom: 20px;
+
+	animation-timing-function: linear;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-name: conway;
+}
+.conway-cell {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	background-color: #000000;
+	opacity: 0;
+}
+
+.conway01,
+.conway10,
+.conway11,
+.conway12,
+.conway20,
+.conway21,
+.conway23,
+.conway31,
+.conway32 {
+	animation-timing-function: step-end;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+}
+
+.conway01 {animation-name: conway-bwww;}
+.conway10 {animation-name: conway-wbww;}
+.conway11 {animation-name: conway-wwwb;}
+.conway12 {animation-name: conway-bbbw;}
+.conway20 {animation-name: conway-bwbw;}
+.conway21 {animation-name: conway-bbww;}
+.conway22 {opacity: 1;}
+.conway23 {animation-name: conway-wwwb;}
+.conway31 {animation-name: conway-wbbb;}
+.conway32 {animation-name: conway-wwbb;}
+@keyframes conway {
+	0% {
+		top: 10px;
+		left: 10px;
+	}
+	100% {
+		top: 0;
+		left: 0;
+	}
+}
+@keyframes conway-bwww {
+	0% {
+		opacity: 1;
+	}
+	25% {
+		opacity: 0;
+	}
+}
+
+@keyframes conway-wbww {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}
+@keyframes conway-wwwb {
+	0% {
+		opacity: 0;
+	}
+	75% {
+		opacity: 1;
+	}
+}
+@keyframes conway-bbbw {
+	0% {
+		opacity: 1;
+	}
+	75% {
+		opacity: 0;
+	}
+}
+@keyframes conway-bwbw {
+	0% {
+		opacity: 1;
+	}
+	25% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	75% {
+		opacity: 0;
+	}
+}
+@keyframes conway-bbww {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}
+
+@keyframes conway-wbbb {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 1;
+	}
+}
+@keyframes conway-wwbb {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+}

@@ -1,0 +1,21 @@
+@import '../../variables.css';
+
+:root {
+	--headerHeight: 35px;
+}
+
+header {
+	background-color: var(--headerBackground);
+	height: var(--headerHeight);
+	
+	h1 {
+		color: var(--headerColor);
+		font-size: calc(var(--headerHeight) - 10px);
+		margin: 0 0 0 10px;
+		line-height: var(--headerHeight);
+	}
+}
+
+main {
+	height: calc(100% - var(--headerHeight));
+}

@@ -1,0 +1,24 @@
+:root {
+	--lighter-grey: #F7F7F7;
+	--light-grey: #EEEEEE;
+	--grey: #CCCCCC;
+	--dark-grey: #AAAAAA;
+	--darker-grey: #333333;
+
+	--themeDark: #205081;
+	--themeMedium: #438DDA;
+
+	--headerBackground: #205081;
+	--headerColor: white;
+
+	--color0: #5DA5DA; /* blue */
+	--color1: #FAA43A; /* orange */
+	--color2: #60BD68; /* green */
+	--color3: #F17CB0; /* pink */
+	--color4: #B2912F; /* brown */
+	--color5: #B276B2; /* purple */
+	--color6: #DECF3F; /* yellow */
+	--color7: #F15854; /* red */
+	--color8: #4D4D4D; /* gray */
+	--color9: #CACACA; /* light-gray */
+}

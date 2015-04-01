@@ -1,0 +1,11 @@
+<div class="header">
+	<a href="{{prevmonth}}">&lt;</a><h2>{{title}}</h2><a href="{{nextmonth}}">&gt;</a>
+</div>
+
+<select onchange="page(this.value)">
+	{{#each users}}
+		<option value="{{url}}" {{#if current}}selected{{/if}}>{{displayname}}</option>
+	{{/each}}
+</select>
+
+<div class="jtime-persontime-table-container"></div>

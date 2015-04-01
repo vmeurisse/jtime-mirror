@@ -1,0 +1,17 @@
+<header>
+	<h1>Jira time tracker</h1>
+</header>
+<div id="jtime-loader" hidden>
+	<div class="flex">
+		<div class="conway">
+			{{#each conway}}
+				{{#each this}}
+					<div class="conway-cell conway{{@../index}}{{this}}"></div>
+				{{/each}}
+			{{/each}}
+		</div>
+		<div>Reticulating splines...</div>
+	</div>
+</div>
+<main>
+</main>
