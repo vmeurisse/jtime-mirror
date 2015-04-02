@@ -1,3 +1,6 @@
+'use strict';
+
+var path = require('path');
 var express = require('express');
 
 var config = require('../../config');
@@ -6,8 +9,16 @@ var service = require('./service');
 
 var app = express();
 
-var root = __dirname + '/../../build';
+var root = path.join(__dirname, '..', '..', 'build');
 app.use(express.static(root));
+
+function handleError(res, error) {
+	console.log('Error', error);
+	console.log(error.stack);
+	res.json({
+		error: '' + error
+	});
+}
 
 app.get(['/projects/:project/:date'], function(req, res) {
 	res.sendFile('index.html', {
@@ -31,14 +42,6 @@ app.all('/api/worklog/:projectKey/:date', function(req, res) {
 		res.json(log);
 	}).catch(handleError.bind(null, res));
 });
-
-handleError = function(res, error) {
-	console.log('Error', error);
-	console.log(error.stack);
-	res.json({
-		error: '' + error
-	});
-};
 
 app.listen(config.SERVER_PORT, function() {
 	console.log('Server started on port ' + config.SERVER_PORT);

@@ -1,3 +1,5 @@
+'use strict';
+
 var Client = require('node-rest-client').Client;
 var lru = require('lru-cache');
 
@@ -37,6 +39,12 @@ var longCache = lru({
 	maxAge: 7 * 24 * 60 * 60 * 1000 // 1w
 });
 
+function storeIssue(issue) {
+	if (issue.fields && issue.fields.updated) {
+		issue.date = new Date(issue.fields.updated);
+	}
+	longCache.set('issue:' + issue.key, issue);
+}
 
 exports.projects = function() {
 	return new Promise(function(fulfill, reject) {
@@ -58,7 +66,7 @@ exports.issues = function(params) {
 	return new Promise(function(fulfill, reject) {
 		var jql = [];
 		if (!validProject(params.projectKey)) {
-			return cb('invalid project key');
+			return reject(new Error('invalid project key'));
 		}
 		jql.push('project = ' + params.projectKey);
 
@@ -68,7 +76,7 @@ exports.issues = function(params) {
 
 		if (params.minDate || params.maxDate) {
 			if (!validDate(params.minDate) || !validDate(params.maxDate)) {
-				return cb('invalid date query');
+				return reject(new Error('invalid date query'));
 			}
 			jql.push('created <= "' + params.maxDate + '" AND updated >= "' + params.minDate + '"');
 		} else {
@@ -125,13 +133,6 @@ exports.issue = function(key) {
 			});
 		}
 	});
-};
-
-var storeIssue = function(issue) {
-	if (issue.fields && issue.fields.updated) {
-		issue.date = new Date(issue.fields.updated);
-	}
-	longCache.set('issue:' + issue.key, issue);
 };
 
 exports.worklog = function(issue) {

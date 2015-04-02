@@ -51,14 +51,14 @@ export function serializeParams(params) {
 			queryVars.push(getEncodedParam(property, params[property]));
 		}
 	}
-	return queryVars.join("&");
+	return queryVars.join('&');
 }
 
-function getEncodedParam(key,value) {
+function getEncodedParam(key, value) {
 	if (value instanceof Object) {
 		value = JSON.stringify(value);
 	}
-	return encodeURIComponent(key) + "=" + encodeURIComponent(value);
+	return encodeURIComponent(key) + '=' + encodeURIComponent(value);
 }
 
 export function zeropad(n, w) {

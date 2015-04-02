@@ -1,3 +1,5 @@
+/*global $:true, $$:true, jtime: true*/
+
 import page from 'page';
 
 import layout from './pages/layout/layout';
@@ -30,7 +32,7 @@ else document.addEventListener('DOMContentLoaded', start);
 
 
 (function() {
-	var l = document.createElement("script");
+	var l = document.createElement('script');
 	l.async = true;
 	l.src = 'http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1';
 	var s = document.getElementsByTagName('script')[0];

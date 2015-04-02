@@ -7,4 +7,7 @@ config.js
 # webstrom
 .idea
 
+.directory
+.kateproject*
+
 npm-debug.log

@@ -1,7 +1,7 @@
 var layout = {};
 
 layout.show = function() {
-	var line = [0,1,2,3];
+	var line = [0, 1, 2, 3];
 	document.body.innerHTML = jtime.tpl.layout({
 		conway: [line, line, line, line]
 	});

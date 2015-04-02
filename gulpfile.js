@@ -11,6 +11,7 @@ var declare = require('gulp-declare');
 var htmlmin = require('gulp-htmlmin');
 var sourcemaps = require('gulp-sourcemaps');
 var amdOptimize = require('amd-optimize');
+var eslint = require('gulp-eslint');
 
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer-core');
@@ -43,6 +44,7 @@ var globs = {
 	markup: ['src/client/**/*.html'],
 	statics: ['src/client/**/*.json', 'src/client/**/*.png'],
 	templates: 'src/client/**/*.hbs',
+	server: 'src/server/**/*.js',
 	gulp: 'gulpfile.js'
 };
 
@@ -65,7 +67,7 @@ var mario = function() {
 var reloadPipe = lazypipe().pipe(filter, ['*', '!*.map'])
 	                       .pipe(function () { return gulpif(watch, livereload()); });
 
-gulp.task('build', ['_scripts', '_style', '_markup', '_statics', '_templates']);
+gulp.task('build', ['_scripts', '_style', '_markup', '_statics', '_templates', '_server']);
 
 gulp.task('default', function () {
 	mode = 'dev';
@@ -77,13 +79,12 @@ gulp.task('default', function () {
 
 gulp.task('_watch', function () {
 	watch = true;
-	for (var type of ['scripts', 'style', 'markup', 'statics', 'templates']) {
+	for (var type of ['scripts', 'style', 'markup', 'statics', 'templates', 'server']) {
 		gulp.src('I_DONT_EXIST')
 			.pipe(gulpWatch(globs[type]))
 			.pipe(filter(function(type, file) {
 				console.log('I changed', file.path, file.event);
 				if (file.event === 'unlink') { // if a file is deleted, forget about it
-					console.log('deleted', file.path);
 					if (cached.caches[type]) {
 						delete cached.caches[type][file.path];
 						remember.forget(type, file.path);
@@ -127,6 +128,9 @@ function getSourceModules() {
 		.pipe(mario())
 		.pipe(sourcemaps.init())
 		.pipe(cached('scripts'))
+		.pipe(eslint())
+		.pipe(eslint.format())
+		.pipe(eslint.failAfterError())
 		.pipe(babel({
 			modules: 'amd',
 			blacklist: ['strict']
@@ -149,6 +153,15 @@ function getScriptDependencies() {
 		], {base: '.'})
 		.pipe(sourcemaps.init())
 }
+
+gulp.task('_server', function() {
+	return gulp.src(globs.server)
+		.pipe(mario())
+		.pipe(cached('server'))
+		.pipe(eslint())
+		.pipe(eslint.format())
+		.pipe(eslint.failAfterError());
+});
 
 gulp.task('_style', function() {
 	var browsers = [

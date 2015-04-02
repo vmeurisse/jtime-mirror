@@ -23,6 +23,7 @@
     "gulp-cached": "^1.0.4",
     "gulp-concat": "^2.5.2",
     "gulp-declare": "^0.3.0",
+    "gulp-eslint": "^0.8.0",
     "gulp-filter": "^2.0.2",
     "gulp-handlebars": "^4.0.0",
     "gulp-htmlmin": "^1.1.1",

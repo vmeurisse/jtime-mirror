@@ -34,7 +34,6 @@ persontime.show = function(ctx) {
 persontime.destroy = function() {
 	delete jtime.run.data.persontime;
 	delete jtime.run.persontime;
-	console.log('destroy');
 };
 
 persontime.draw = function() {
