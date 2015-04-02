@@ -67,7 +67,7 @@ var mario = function() {
 var reloadPipe = lazypipe().pipe(filter, ['*', '!*.map'])
 	                       .pipe(function () { return gulpif(watch, livereload()); });
 
-gulp.task('build', ['_scripts', '_style', '_markup', '_statics', '_templates', '_server']);
+gulp.task('build', ['_scripts', '_style', '_markup', '_statics', '_templates', '_server', '_checkdeps']);
 
 gulp.task('default', function () {
 	mode = 'dev';
@@ -237,4 +237,25 @@ gulp.task('_templates', function() {
 	           .pipe(gulpif(mode === 'production', uglify()))
 	           .pipe(gulp.dest('build'))
 	           .pipe(reloadPipe());
+});
+
+gulp.task('_checkdeps', function() {
+	return new Promise(function(fulfill, reject) {
+		var depcheck = require('depcheck');
+		depcheck(__dirname, {}, function(unused) {
+			if (Object.keys(unused.invalidFiles).length) {
+				console.log('Unable to parse some files');
+				console.log(unused.invalidFiles);
+				reject(new Error('Unable to parse some files'));
+				return;
+			}
+			if (unused.dependencies.length || unused.devDependencies.length) {
+				console.log('You have some unused dependencies');
+				console.log(unused.dependencies.concat(unused.devDependencies));
+				reject(new Error('You have some unused dependencies'));
+				return;
+			}
+			fulfill();
+		});
+	});
 });
