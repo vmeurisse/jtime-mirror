@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "express": "^4.12.2",
-    "lru-cache": "~2.5.0",
-    "node-rest-client": "~1.0.3"
+    "lru-cache": "^2.5.0",
+    "node-rest-client": "^1.4.8"
   },
   "devDependencies": {
     "amd-optimize": "^0.4.3",
@@ -20,7 +20,7 @@
     "doiuse": "^0.3.2",
     "event-stream": "^3.3.0",
     "gulp": "^3.8.11",
-    "gulp-babel": "^4.0.0",
+    "gulp-babel": "^5.0.0",
     "gulp-cached": "^1.0.4",
     "gulp-concat": "^2.5.2",
     "gulp-declare": "^0.3.0",
@@ -30,10 +30,10 @@
     "gulp-htmlmin": "^1.1.1",
     "gulp-if": "^1.2.5",
     "gulp-livereload": "^3.8.0",
-    "gulp-nodemon": "^1.0.5",
+    "gulp-nodemon": "^2.0.2",
     "gulp-order": "^1.1.1",
     "gulp-plumber": "^1.0.0",
-    "gulp-postcss": "^4.0.3",
+    "gulp-postcss": "^5.0.0",
     "gulp-progeny": "0.0.7",
     "gulp-remember": "^0.3.0",
     "gulp-sourcemaps": "^1.5.1",
