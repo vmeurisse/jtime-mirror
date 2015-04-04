@@ -33,7 +33,7 @@ app.all('/api/projects', function(req, res) {
 });
 
 app.all('/api/worklog/:projectKey/:date', function(req, res) {
-	var lastDayOfMonth = new Date(+req.params.date.slice(0, 4), +req.params.date.slice(5, 7), 0).getDate();
+	var lastDayOfMonth = new Date(+req.params.date.slice(0, 4), +req.params.date.slice(5, 7), 0, 12, 0).getDate();
 	service.worklog({
 		projectKey: req.params.projectKey,
 		minDate: req.params.date + '-01',

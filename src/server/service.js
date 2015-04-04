@@ -53,11 +53,15 @@ console.time('worklogs');
 }
 
 function filterWorklog(minDate, maxDate, worklogs) {
-	minDate = new Date(minDate);
-	maxDate = new Date(maxDate);
+	// We drop the timezone of both limits and jira date to make sure
+	// that the date limits are using the server time zone
+	
+	var min = new Date(minDate + 'T00:00Z').getTime();
+	var max = new Date(maxDate + 'T23:59:59.999Z').getTime();
 	return worklogs.filter(function(worklog) {
-		var date = new Date(worklog.start);
-		return minDate <= date && date <= maxDate;
+		var d = worklog.start.split(/\D/);
+		var date = Date.UTC(+d[0], --d[1], +d[2], +d[3], +d[4], +d[5], +d[6]);
+		return min <= date && date <= max;
 	});
 }
 
