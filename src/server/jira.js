@@ -93,7 +93,8 @@ exports.issues = function(params) {
 			jira.methods.search({
 				parameters: {
 					maxResults: 1000,
-					jql: jql
+					jql: jql,
+					fields: 'summary,updated,parent,issuetype,customfield_10006,customfield_10007'
 				}
 			}, function(data) {
 				console.timeEnd(jql);
@@ -123,7 +124,8 @@ exports.issue = function(key) {
 		} else {
 			jira.methods.issue({
 				path: {
-					issue: key
+					issue: key,
+					fields: 'summary,updated,parent,issuetype,customfield_10006,customfield_10007'
 				}
 			}, function(data) {
 				storeIssue(data);
@@ -142,9 +144,6 @@ exports.worklog = function(issue) {
 		if (worklog && worklog.date >= issue.date) {
 			fulfill(worklog.logs);
 		} else {
-			if (worklog) {
-				console.log('stall worklog', issue.key, worklog.date, issue.date);
-			}
 			jira.methods.worklog({
 				path: {
 					issue: key
