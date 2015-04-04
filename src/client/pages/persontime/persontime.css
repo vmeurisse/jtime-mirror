@@ -44,7 +44,7 @@ table.jtime-persontime-table {
 		vertical-align: top;
 		
 		h4 {
-		    background-color: var(--light-grey);
+			background-color: var(--light-grey);
 			color: #333333;
 			padding: 5px;
 			margin: 0;

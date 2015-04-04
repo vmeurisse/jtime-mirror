@@ -1,14 +1,14 @@
 <table class="jtime-persontime-table">
 	{{#each weeks}}
-      <tr>
-		  {{#each this}}
-            <td {{#if invalid}}class="invalid"{{/if}}>
-				{{#if date}}<h4>{{date}}</h4>{{/if}}
-				{{#each works}}
-                  <span class="color{{color}}" style="line-height:{{height}}px; font-size:{{fontSize}}px" title="{{title}}">{{CR}}</span>
-				{{/each}}
-            </td>
-		  {{/each}}
-      </tr>
+		<tr>
+			{{#each this}}
+				<td {{#if invalid}}class="invalid"{{/if}}>
+					{{#if date}}<h4>{{date}}</h4>{{/if}}
+					{{#each works}}
+						<span class="color{{color}}" style="line-height:{{height}}px; font-size:{{fontSize}}px" title="{{title}}">{{CR}}</span>
+					{{/each}}
+				</td>
+			{{/each}}
+		</tr>
 	{{/each}}
 </table>

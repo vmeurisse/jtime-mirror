@@ -12,4 +12,3 @@ exports.groupBy = function(list, property) {
 	}
 	return groupedList;
 };
-
