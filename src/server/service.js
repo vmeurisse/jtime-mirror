@@ -24,7 +24,6 @@ exports.worklog = function(options) {
 };
 
 function getAllWorklogs(issues) {
-console.time('worklogs');
 	return Promise.all(issues.map(function(issue) {
 		return jira.worklog(issue)
 		.then(function(worklog) {
@@ -47,7 +46,6 @@ console.time('worklogs');
 			}));
 		});
 
-		console.timeEnd('worklogs');
 		return [].concat.apply([], worklogs);
 	});
 }
