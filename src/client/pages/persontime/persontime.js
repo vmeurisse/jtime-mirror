@@ -148,7 +148,7 @@ persontime.showCalendar = function() {
 
 persontime.preprocess = function(data) {
 	data.forEach(function(item) {
-		item.day = item.start.slice(0, 10);
+		item.day = item.localStart.slice(0, 10);
 	});
 	return bouc.groupBy(data, 'day');
 };

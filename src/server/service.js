@@ -1,5 +1,7 @@
 'use strict';
 
+var moment = require('moment-timezone');
+
 var jira = require('./jira');
 var frw = require('./frw');
 
@@ -17,9 +19,9 @@ exports.worklog = function(options) {
 		maxDate: options.maxDate,
 		loggedWork: true
 	}).then(getAllWorklogs)
+	.then(resolveUser)
 	.then(filterWorklog.bind(null, options.minDate, options.maxDate))
 	.then(resolveParents)
-	.then(resolveUser)
 	.then(extractCRs);
 };
 
@@ -57,7 +59,7 @@ function filterWorklog(minDate, maxDate, worklogs) {
 	var min = new Date(minDate + 'T00:00Z').getTime();
 	var max = new Date(maxDate + 'T23:59:59.999Z').getTime();
 	return worklogs.filter(function(worklog) {
-		var d = worklog.start.split(/\D/);
+		var d = worklog.localStart.split(/\D/);
 		var date = Date.UTC(+d[0], --d[1], +d[2], +d[3], +d[4], +d[5], +d[6]);
 		return min <= date && date <= max;
 	});
@@ -127,14 +129,14 @@ function resolveUser(worklogs) {
 	var queries = [];
 	for (var username in worklogMap) {
 		var q = jira.user(username)
-		.then(function(user) {
-			var displayName = user && user.displayName;
-			if (displayName) {
-				worklogMap[user.name].forEach(function(log) {
-					log.userDisplayName = displayName;
-				});
-			}
-		});
+		.then(function(userName, user) {
+			var displayName = user && user.displayName || userName;
+			var tz = user && user.timeZone || 'UTC';
+			worklogMap[userName].forEach(function(log) {
+				log.userDisplayName = displayName;
+				log.localStart = moment(log.start).tz(tz).format();
+			});
+		}.bind(null, username));
 		queries.push(q);
 	}
 	return Promise.all(queries).then(function() {
