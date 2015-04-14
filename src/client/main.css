@@ -10,6 +10,7 @@ html {
 }
 body {
 	background-color: #f7f7f7;
+	overflow: hidden;
 }
 select {
 	-moz-appearance: none;
