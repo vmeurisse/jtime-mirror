@@ -20,7 +20,7 @@ function handleError(res, error) {
 	});
 }
 
-app.get(['/projects/:project/:date'], function(req, res) {
+app.get(['/projects/:project', '/projects/:project/:date'], function(req, res) {
 	res.sendFile('index.html', {
 		root: root
 	});

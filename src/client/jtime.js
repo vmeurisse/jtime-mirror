@@ -24,6 +24,7 @@ function start () {
 	layout.show();
 	page('/', (ctx) => home(ctx));
 	persontime.register('/projects/:project/:date');
+	persontime.register('/projects/:project');
 	page.start();
 }
 

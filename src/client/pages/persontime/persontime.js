@@ -12,12 +12,17 @@ persontime.register = function(url) {
 };
 persontime.show = function(ctx) {
 	jtime.run.persontime = {};
-	var data = {
+	let today = new Date();
+	let data = {
 		ctx: ctx,
 		project: ctx.params.project,
 		date: ctx.params.date,
-		query: bouc.parseQuery(ctx.querystring)
+		query: bouc.parseQuery(ctx.querystring),
+		currentMonth: today.getFullYear() + '-' + bouc.zeropad(today.getMonth() + 1, 2)
 	};
+	if (!data.date) {
+		data.date = data.currentMonth;
+	}
 	data.username = data.query.user;
 	jtime.run.data.persontime = data;
 
@@ -25,7 +30,7 @@ persontime.show = function(ctx) {
 
 	fetch(`/api/worklog/${data.project}/${data.date}`)
 	.then(response => response.json())
-	.then(work => data.work = bouc.groupBy(work, 'user'))
+	.then(work => data.work = Array.isArray(work) ? bouc.groupBy(work, 'user') : {})
 	.then(() => this.draw())
 	.then(jtime.hideLoader)
 	.catch(jtime.hideLoader);
@@ -34,6 +39,15 @@ persontime.show = function(ctx) {
 persontime.destroy = function() {
 	delete jtime.run.data.persontime;
 	delete jtime.run.persontime;
+};
+
+persontime.getLink = function(month) {
+	var data = jtime.run.data.persontime;
+	
+	var date = month !== data.currentMonth ? `/${month}` : '';
+	var params = data.ctx.querystring ? `?${data.ctx.querystring}` : '';
+	
+	return `/projects/${data.project}${date}${params}`;
 };
 
 persontime.draw = function() {
@@ -58,8 +72,8 @@ persontime.draw = function() {
 		title: dateFormater.format(firstDayOfMonth),
 		users: this.getUserList(),
 		data: data,
-		prevmonth: data.ctx.path.replace(data.date, prevmonth),
-		nextmonth: data.ctx.path.replace(data.date, nextmonth)
+		prevmonth: persontime.getLink(prevmonth),
+		nextmonth: persontime.getLink(nextmonth)
 	});
 	jtime.run.persontime.tableContainer = jtime.run.container.querySelector('.jtime-persontime-table-container');
 	if (data.query.user) {
