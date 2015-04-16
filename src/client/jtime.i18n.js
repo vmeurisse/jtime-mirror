@@ -1,3 +1,3 @@
 export default {
-	locale: (new Intl.NumberFormat()).resolvedOptions()
+	locale: window.Intl ? (new Intl.NumberFormat()).resolvedOptions() : null
 };

@@ -1,0 +1,33 @@
+.ie {
+	width: 400px;
+	margin: auto;
+	
+	height: 100%;
+	
+	.center {
+		position: relative;
+		width: 400px;
+		height: 400px;
+		top: 50%;
+		margin-top: -200px;
+	}
+	
+	img {
+		display: block;
+		margin: auto;
+	}
+	
+	.not {
+		background-color: tomato;
+		color: white;
+		
+		font-weight: bold;
+		font-size: 30px;
+		
+		padding: 5px 35px;
+		display: inline-block;
+		
+		-ms-transform: translateX(50px) translateY(-124px) rotate(-13deg);
+		transform: translateX(50px) translateY(-124px) rotate(-13deg);
+	} 
+}

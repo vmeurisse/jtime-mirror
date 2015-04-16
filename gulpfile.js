@@ -42,7 +42,7 @@ var globs = {
 	scripts: ['src/client/**/*.js'],
 	style: 'src/client/**/*.css',
 	markup: ['src/client/**/*.html'],
-	statics: ['src/client/**/*.json', 'src/client/**/*.png'],
+	statics: ['src/client/**/*.json', 'src/client/**/*.png', 'src/client/**/*.svg'],
 	templates: 'src/client/**/*.hbs',
 	server: 'src/server/**/*.js',
 	gulp: 'gulpfile.js'
@@ -174,7 +174,9 @@ gulp.task('_style', function() {
 		cssImport(),
 		customProperties(),
 		calc(),
-		autoprefixer(browsers),
+		autoprefixer(browsers, {
+			remove: false
+		}),
 		doiuse({
 			browsers: browsers,
 			onFeatureUsage: function(usageInfo) {
