@@ -244,7 +244,10 @@ gulp.task('_templates', function() {
 gulp.task('_checkdeps', function() {
 	return new Promise(function(fulfill, reject) {
 		var depcheck = require('depcheck');
-		depcheck(__dirname, {}, function(unused) {
+		var options = {
+			'ignoreDirs': ['build', 'client']
+		};
+		depcheck(__dirname, options, function(unused) {
 			if (Object.keys(unused.invalidFiles).length) {
 				console.log('Unable to parse some files');
 				console.log(unused.invalidFiles);
