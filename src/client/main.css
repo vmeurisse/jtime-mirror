@@ -1,16 +1,17 @@
+@import 'variables.css';
+
 html {
 	font-family: sans-serif;
-	
-	&,
-	body {
-		margin: 0;
-		padding: 0; 
-		height: 100%;
-	}
+}
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
 }
 body {
 	background-color: #f7f7f7;
-	overflow: hidden;
+	padding-top: var(--headerHeight);
 }
 select {
 	-moz-appearance: none;

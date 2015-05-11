@@ -1,12 +1,11 @@
 @import '../../variables.css';
 
-:root {
-	--headerHeight: 35px;
-}
-
 header {
 	background-color: var(--headerBackground);
 	height: var(--headerHeight);
+	position: fixed;
+	width: 100%;
+	top: 0;
 	
 	h1 {
 		color: var(--headerColor);
@@ -21,9 +20,10 @@ main {
 }
 
 .layout-forkme {
-	position: absolute;
+	position: fixed;
 	top: 42px;
 	right: -43px;
+	display: inline-block;
 	
 	transform: rotate(45deg);
 	
@@ -33,7 +33,6 @@ main {
 	
 	background-color: #333;
 	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
-	
 	
 	a,
 	a:hover {
