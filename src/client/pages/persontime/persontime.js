@@ -68,15 +68,17 @@ persontime.draw = function() {
 		year: 'numeric',
 		month: 'long'
 	});
+	let hasWork = data.username && data.work[data.username];
 	jtime.run.container.innerHTML = jtime.tpl.persontime({
 		title: dateFormater.format(firstDayOfMonth),
+		hasWork,
 		users: this.getUserList(),
-		data: data,
+		data,
 		prevmonth: persontime.getLink(prevmonth),
 		nextmonth: persontime.getLink(nextmonth)
 	});
 	jtime.run.persontime.tableContainer = jtime.run.container.querySelector('.jtime-persontime-table-container');
-	if (data.query.user) {
+	if (hasWork) {
 		this.showCalendar();
 	}
 };
@@ -93,7 +95,7 @@ persontime.getUserList = function() {
 			displayname: data.work[username][0].userDisplayName || username,
 			username: username,
 			url: data.ctx.pathname + '?' + bouc.serializeParams(query),
-			current: data.query.user === username
+			current: data.username === username
 		});
 	}
 	return users.sort((a, b) => a.displayname > b.displayname);

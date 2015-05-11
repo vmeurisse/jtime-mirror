@@ -16,7 +16,7 @@ header {
 }
 
 main {
-	height: calc(100% - var(--headerHeight));
+	padding: 1em;
 }
 
 .layout-forkme {

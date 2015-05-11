@@ -12,6 +12,7 @@ body {
 body {
 	background-color: #f7f7f7;
 	padding-top: var(--headerHeight);
+	box-sizing: border-box;
 }
 select {
 	-moz-appearance: none;
@@ -26,4 +27,20 @@ select {
 select:-moz-focusring {
 	color: transparent;
 	text-shadow: 0 0 0 #000;
+}
+
+a.button {
+	text-decoration: none;
+	border: 1px solid var(--darker-grey);
+	padding: 6px 12px;
+	border-radius: 5px;
+	display: inline-block;
+	
+	color: var(--darker-grey);
+	font-weight: bold;
+	
+	&:focus {
+		outline: none;
+		border-color: var(--dark-grey);
+	}
 }

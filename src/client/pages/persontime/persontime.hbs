@@ -2,10 +2,23 @@
 	<a href="{{prevmonth}}">&lt;</a><h2>{{title}}</h2><a href="{{nextmonth}}">&gt;</a>
 </div>
 
-<select onchange="page(this.value)">
-	{{#each users}}
-		<option value="{{url}}" {{#if current}}selected{{/if}}>{{displayname}}</option>
-	{{/each}}
-</select>
-
-<div class="jtime-persontime-table-container"></div>
+{{#if hasWork}}
+	<select onchange="page(this.value)">
+		{{#each users}}
+			<option value="{{url}}" {{#if current}}selected{{/if}}>{{displayname}}</option>
+		{{/each}}
+	</select>
+	<div class="jtime-persontime-table-container"></div>
+{{else}}
+	{{#if users}}
+		{{#if data.username}}
+			{{data.username}} didn't logged time in {{title}}.<br/><br/><br/>
+			You can choose another team member bellow:<br/><br/>
+		{{/if}}
+		{{#each users}}
+			<a class="button" href="{{url}}">{{displayname}}</a>
+		{{/each}}
+	{{else}}
+		Nobody worked in the project in {{title}}
+	{{/if}}
+{{/if}}
