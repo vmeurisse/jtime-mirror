@@ -24,7 +24,7 @@ jtime.hideLoader = () => layout.hideLoader();
 function start () {
 	if (ie.check()) {
 		layout.show();
-		page('/', (ctx) => home(ctx));
+		home.register('/');
 		persontime.register('/projects/:project/:date');
 		persontime.register('/projects/:project');
 		page.start();

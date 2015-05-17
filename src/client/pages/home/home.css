@@ -7,16 +7,47 @@ section.home {
 	justify-content: center;
 	align-items: center;
 	
+	.acContainer {
+		position: relative;
+	}
+	
 	input {
 		width: 500px;
 		font-size: 16px;
 		line-height: 19px;
 		padding: 5px;
 		border: solid 1px #000;
+		background-color: #FAFAFA;
 		
 		&:focus {
 			outline:none;
 			border: solid 1px var(--themeMedium);
+		}
+	}
+	
+	.acResult {
+		position: absolute;
+		
+		width: 510px;
+		border: solid 1px var(--dark-grey);
+		margin-top: 2px;
+		
+		max-height: 200px;
+		overflow: auto;
+		
+		ul {
+			padding: 0;
+			margin: 0;
+			list-style-type: none;
+		}
+		li {
+			padding: 5px;
+			
+			cursor: pointer;
+			
+			&:hover {
+				background-color: var(--light-grey);
+			}
 		}
 	}
 }

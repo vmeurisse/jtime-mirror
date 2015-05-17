@@ -7,16 +7,22 @@ header {
 	width: 100%;
 	top: 0;
 	
+	a {
+		text-decoration: none;
+	}
 	h1 {
 		color: var(--headerColor);
 		font-size: calc(var(--headerHeight) - 10px);
 		margin: 0 0 0 10px;
 		line-height: var(--headerHeight);
+		display: inline-block;
 	}
 }
 
 main {
 	padding: 1em;
+	box-sizing: border-box;
+	height: 100%;
 }
 
 .layout-forkme {
@@ -37,7 +43,6 @@ main {
 	a,
 	a:hover {
 		color: #fff;
-		text-decoration: none;
 		text-align: center;
 
 		width: 200px;
