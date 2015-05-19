@@ -13,11 +13,14 @@ home.show = function() {
 	jtime.run.home = {};
 	jtime.run.data.home = {};
 	
+	var input = jtime.run.container.querySelector('input');
 	jtime.run.home.ac = new AC({
-		dom: jtime.run.container.querySelector('input'),
+		dom: input,
 		datasource: home.acQuery.bind(home),
-		onselect: item => page(`/projects/${item.key}`)
+		onselect: item => page(`/projects/${item.key}`),
+		template: jtime.tpl.ac
 	});
+	input.focus();
 };
 
 home.acQuery = function(query) {

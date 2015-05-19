@@ -45,7 +45,7 @@ section.home {
 			
 			cursor: pointer;
 			
-			&:hover {
+			&.active {
 				background-color: var(--light-grey);
 			}
 		}

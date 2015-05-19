@@ -1,4 +1,5 @@
 /*global $:true, $$:true, jtime: true*/
+import 'es6';
 
 import page from 'page';
 
