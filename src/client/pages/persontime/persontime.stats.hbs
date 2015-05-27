@@ -1,0 +1,21 @@
+<div class="jtime-persontime-stats-block">
+	<h3>Summary</h3>
+	<dl>
+		<dt>Total</dt>
+		<dd>{{total}}</dd>
+		<dt>Days with report</dt>
+		<dd>{{days}}</dd>
+		<dt>Average report time/day</dt>
+		<dd>{{average}}</dd>
+	</dl>
+</div>
+
+<div class="jtime-persontime-stats-block">
+	<h3>Details ({{crs.length}})</h3>
+	<dl>
+	{{#each crs}}
+		<dt>{{CR}}</dt>
+		<dd>{{timeDisplay}}<dd>
+	{{/each}}
+	</dl>
+</div>

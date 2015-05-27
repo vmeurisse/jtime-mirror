@@ -1,0 +1,48 @@
+@import '../../variables.css';
+
+.color0 {background-color: var(--color0);}
+.color1 {background-color: var(--color1);}
+.color2 {background-color: var(--color2);}
+.color3 {background-color: var(--color3);}
+.color4 {background-color: var(--color4);}
+.color5 {background-color: var(--color5);}
+.color6 {background-color: var(--color6);}
+.color7 {background-color: var(--color7);}
+.color8 {background-color: var(--color8);}
+.color9 {background-color: var(--color9);}
+
+
+
+table.jtime-persontime-table {
+	border-spacing: 0;
+	width: 100%;
+	
+	td {
+		width: 14%;
+		height: 110px;
+		padding: 2px;
+		
+		vertical-align: top;
+		
+		h4 {
+			background-color: var(--light-grey);
+			color: #333333;
+			padding: 5px;
+			margin: 0;
+			font-size: 16px;
+			line-height: 19px;
+		}
+		span {
+			color: white;
+			display: block;
+			border-radius: 5px;
+			font-weight: bold;
+			margin: 5px 0 1px;
+			text-align: center;
+		}
+	}
+	td.invalid h4 {
+		background-color: var(--grey);
+		color: white;
+	}
+}

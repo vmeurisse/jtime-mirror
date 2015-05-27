@@ -3,22 +3,31 @@
 </div>
 
 {{#if hasWork}}
-	<select onchange="page(this.value)">
-		{{#each users}}
-			<option value="{{url}}" {{#if current}}selected{{/if}}>{{displayname}}</option>
-		{{/each}}
-	</select>
-	<div class="jtime-persontime-table-container"></div>
+	<div class="jtime-persontime-controls">
+		<select onchange="page(this.value)">
+			{{#each users}}
+				<option value="{{url}}" {{#if current}}selected{{/if}}>{{displayname}}</option>
+			{{/each}}
+		</select>
+	</div>
+	<div class="jtime-persontime-container">
+		<div class="jtime-persontime-subcontainer jtime-persontime-table-container">
+		</div>
+		<div class="jtime-persontime-subcontainer jtime-persontime-stats-container">
+		</div>
+	</div>
 {{else}}
-	{{#if users}}
-		{{#if data.username}}
-			{{data.username}} didn't logged time in {{title}}.<br/><br/><br/>
-			You can choose another team member bellow:<br/><br/>
+	<div class="jtime-persontime-controls">
+		{{#if users}}
+			{{#if data.username}}
+				{{data.username}} didn't logged time in {{title}}.<br/><br/><br/>
+				You can choose another team member bellow:<br/><br/>
+			{{/if}}
+			{{#each users}}
+				<a class="button" href="{{url}}">{{displayname}}</a>
+			{{/each}}
+		{{else}}
+			Nobody worked in the project in {{title}}
 		{{/if}}
-		{{#each users}}
-			<a class="button" href="{{url}}">{{displayname}}</a>
-		{{/each}}
-	{{else}}
-		Nobody worked in the project in {{title}}
-	{{/if}}
+	</div>
 {{/if}}
