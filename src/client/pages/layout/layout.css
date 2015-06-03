@@ -7,12 +7,14 @@ header {
 	width: 100%;
 	top: 0;
 	
+	box-shadow: 0 3px 3px 0 rgba(0,0,0,.3);
+	
 	a {
 		text-decoration: none;
 	}
 	h1 {
 		color: var(--headerColor);
-		font-size: calc(var(--headerHeight) - 10px);
+		font-size: calc(var(--headerHeight) / 2);
 		margin: 0 0 0 10px;
 		line-height: var(--headerHeight);
 		display: inline-block;

@@ -11,7 +11,9 @@
 .color8 {background-color: var(--color8);}
 .color9 {background-color: var(--color9);}
 
-
+.jtime-persontime-table-container {
+	margin: 1em 1em 0;
+}
 
 table.jtime-persontime-table {
 	border-spacing: 0;
