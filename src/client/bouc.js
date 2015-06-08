@@ -205,7 +205,7 @@ export function find(object, path) {
  */
 export function sort(list, sorters) {
 	if (!Array.isArray(list) || list.length < 2) return list;
-	if (Array.isArray(sorters)) sorters = [sorters];
+	if (!Array.isArray(sorters)) sorters = [sorters];
 	
 	let length = list.length;
 	let sorterLength = sorters.length;
@@ -216,7 +216,7 @@ export function sort(list, sorters) {
 		
 		let j = sorterLength;
 		while (j--) {
-			let sorter = sorters[i];
+			let sorter = sorters[j];
 			let value = find(item, sorter.key);
 			values[j] = value;
 		}
