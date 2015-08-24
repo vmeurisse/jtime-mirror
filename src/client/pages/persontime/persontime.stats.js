@@ -3,7 +3,7 @@ import dateformat from '../../modules/dateformat';
 
 var stats = {};
 
-stats.show = function() {
+stats.show = function(selectedWorkIndex) {
 	let data = jtime.run.data.persontime;
 	data = data.work[data.username] || [];
 
@@ -13,7 +13,9 @@ stats.show = function() {
 		crs: getCRs(data),
 		total: dateformat.duration(total),
 		days,
-		average: dateformat.duration(total / days)
+		average: dateformat.duration(total / days),
+		selected: data[selectedWorkIndex],
+		jiraUrl: jtime.config.jiraUrl
 	});
 };
 

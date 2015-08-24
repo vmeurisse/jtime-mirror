@@ -7,6 +7,7 @@ import ie from './pages/ie/ie';
 import layout from './pages/layout/layout';
 import home from './pages/home/home';
 import persontime from './pages/persontime/persontime';
+import stats from './pages/persontime/persontime.stats';
 
 
 window.page = page;
@@ -21,6 +22,7 @@ jtime.run = {
 
 jtime.showLoader = () => layout.showLoader();
 jtime.hideLoader = () => layout.hideLoader();
+jtime.selectWork = (workIndex) => stats.show(workIndex);
 
 function start () {
 	if (ie.check()) {

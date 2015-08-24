@@ -19,3 +19,30 @@
 	{{/each}}
 	</dl>
 </div>
+
+<div class="jtime-persontime-stats-block">
+    <h3>Selected</h3>
+    <dl>
+    {{#if selected}}
+        <dt>Spent:</dt>
+        <dd>{{selected.timeSpent}} ({{selected.timeSpentRatioString}})</dd>
+        {{#if selected.epic}}
+            <dt>Epic:</dt>
+            <dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.epic}} ">{{selected.epic}}</a></dd>
+            <dd>{{selected.epicSummary}}</dd>
+        {{/if}}
+        {{#if selected.storyName}}
+            <dt>Story:</dt>
+            <dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.story}} ">{{selected.story}}</a></dd>
+            <dd>{{selected.storyName}}</dd>
+        {{/if}}
+        {{#if selected.task}}
+            <dt>Task:</dt>
+            <dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.task}} ">{{selected.task}}</a></dd>
+            <dd>{{selected.taskName}}</dd>
+        {{/if}}
+    {{else}}
+        <dt><em>None - Click on a task to have more details</em></dt>
+    {{/if}}
+    </dl>
+</div>

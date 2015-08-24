@@ -36,16 +36,9 @@ table.showCalendar = function() {
 					colorMap[work.CR] = nextColor;
 					if (nextColor !== 9) nextColor++;
 				}
-				work.height = Math.max(10, work.timeSpentSeconds * 80 / (7 * 3600) - 5); //-5 to account margin
+				work.height = Math.max(10, work.timeSpentDays * 80 - 5); //-5 to account margin
 				work.fontSize = Math.min(16, work.height / 1.2);
-				
-				var title = [`spent: ${work.timeSpent} (${(work.timeSpentSeconds / (7 * 3600) * 100).toFixed(0)}%)`];
-				if (work.task) title.push(`${work.task} - ${work.taskName}`);
-				if (work.story) title.push(`${work.story} - ${work.storyName}`);
-				if (work.epic) title.push(`${work.epic} - ${work.epicSummary}`);
-				if (work.epicName !== work.epicSummary) title.push(`${work.epic} - ${work.epicName}`);
-				
-				work.title = title.join('\n');
+				work.title = `spent: ${work.timeSpent} (${work.timeSpentRatio})`;
 				totalDay += work.timeSpentSeconds;
 			});
 			var inmonth = cur.getMonth() === month;
@@ -64,8 +57,12 @@ table.showCalendar = function() {
 };
 
 table.preprocess = function(data) {
-	data.forEach(function(item) {
-		item.day = item.localStart.slice(0, 10);
+	data.forEach(function(item, index) {
+        item.index = index;
+        item.timeSpentDays = item.timeSpentSeconds / (7 * 3600);
+        item.timeSpentRatio = (item.timeSpentDays * 100).toFixed(0) + '%';
+
+        item.day = item.localStart.slice(0, 10);
 	});
 	return bouc.groupBy(data, 'day');
 };
