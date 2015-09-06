@@ -32,8 +32,14 @@ function start () {
 	}
 }
 
-if (document.readyState === 'complete') start();
-else document.addEventListener('DOMContentLoaded', start);
+let ready = new Promise(function(fullfil) {
+	if (document.readyState === 'complete') fullfil();
+	else document.addEventListener('DOMContentLoaded', fullfil);
+});
+
+let conf = fetch('/api/config').then(res => res.json()).then(c => jtime.config = c);
+
+Promise.all([ready, conf]).then(start);
 
 if (location.search.match(/livereload/)) {
 	(function() {

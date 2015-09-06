@@ -32,6 +32,12 @@ app.all('/api/projects', function(req, res) {
 	}).catch(handleError.bind(null, res));
 });
 
+app.get('/api/config', function(req, res) {
+	res.json({
+		jiraUrl: config.JIRA_URL
+	});
+});
+
 app.all('/api/worklog/:projectKey/:date', function(req, res) {
 	var lastDayOfMonth = new Date(+req.params.date.slice(0, 4), +req.params.date.slice(5, 7), 0, 12, 0).getDate();
 	service.worklog({
