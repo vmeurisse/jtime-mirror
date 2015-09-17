@@ -52,7 +52,8 @@ table.showCalendar = function() {
 			days.push({
 				date: inmonth ? cur.getDate() : null,
 				works: works,
-				invalid: inmonth && totalDay !== 7 * 3600
+				invalid: inmonth && totalDay !== 7 * 3600,
+				total: (totalDay / (7 * 3600) * 100).toFixed(0) + '%'
 			});
 			cur.setTime(cur.getTime() + 86400000);
 		}
