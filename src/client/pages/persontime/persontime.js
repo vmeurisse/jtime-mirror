@@ -83,8 +83,8 @@ persontime.draw = function() {
 	jtime.run.persontime.tableContainer = jtime.run.container.querySelector('.jtime-persontime-table-container');
 	jtime.run.persontime.statsContainer = jtime.run.container.querySelector('.jtime-persontime-stats-container');
 	if (hasWork) {
-		table.showCalendar();
-		stats.show();
+		var colorMap = table.showCalendar();
+		stats.show(colorMap);
 	}
 };
 

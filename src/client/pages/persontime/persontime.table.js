@@ -62,6 +62,7 @@ table.showCalendar = function() {
 	jtime.run.persontime.tableContainer.innerHTML = jtime.tpl.persontime.table({
 		weeks: weeks
 	});
+	return colorMap;
 };
 
 table.preprocess = function(data) {
