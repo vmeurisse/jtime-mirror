@@ -9,6 +9,10 @@
 	"globals": {
 		"$": false,
 		"$$": false,
-		"jtime": false
+		"jtime": false,
+		"Handlebars": false
+	},
+	"rules": {
+		"no-console": false
 	}
 }

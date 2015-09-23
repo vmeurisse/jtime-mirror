@@ -1,0 +1,35 @@
+@import '../../variables.css';
+
+.jtime-spent-controls {
+	margin: 1em;
+	float: left;
+	
+	a.button {
+		display: block;
+		float: left;
+		clear: left;
+		margin: 0px 5px 5px 0px;
+		cursor: pointer;
+	}
+	a.button.selected {
+		color: white;
+		background-color: var(--dark-grey);
+	}
+}
+
+.jtime-spent-report {
+	margin: 1em;
+	max-width: 700px;
+	float: left;
+	border-radius: 5px;
+	padding: 10px;
+	background-color: var(--themeMedium);
+	color: white;
+	
+	p {
+		margin: 0;
+	}
+	ul {
+		margin: 0.5em 0 0 0;
+	}
+}

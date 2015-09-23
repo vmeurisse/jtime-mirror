@@ -2,11 +2,13 @@
 import 'es6';
 
 import page from 'page';
+import './handlebars.helpers';
 
 import ie from './pages/ie/ie';
 import layout from './pages/layout/layout';
 import home from './pages/home/home';
 import persontime from './pages/persontime/persontime';
+import spent from './pages/spent/spent';
 
 window.page = page;
 
@@ -27,6 +29,7 @@ function start () {
 		home.register('/');
 		persontime.register('/projects/:project/:date');
 		persontime.register('/projects/:project');
+		spent.register('/projects/:project/boards/:board');
 		page.start();
 	}
 }
