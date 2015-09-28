@@ -35,6 +35,8 @@ table.jtime-persontime-table {
 			line-height: 19px;
 			
 			em.totalDay {
+				background: url('img/tick.png') center right no-repeat;
+				color: transparent;
 				font-weight: normal;
 				font-style: normal;
 				font-size: 60%;
@@ -53,6 +55,11 @@ table.jtime-persontime-table {
 	td.invalid h4 {
 		background-color: var(--grey);
 		color: white;
+		
+		em.totalDay {
+			background-image: none;
+			color: #333333;
+		}
 	}
 	td:nth-last-child(-n+2) { /* less data for weekend days - assumes Sat/Sun are at the end */
 		width: 7%;
