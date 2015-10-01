@@ -5,7 +5,7 @@
 				<td {{#if invalid}}class="invalid"{{/if}}>
 					{{#if date}}<h4>{{date}} <em class="totalDay">{{total}}</em></h4>{{/if}}
 					{{#each works}}
-						<span class="item color{{color}}" data-index="{{index}}" style="line-height:{{height}}px; font-size:{{fontSize}}px" title="{{title}}">{{CR}}</span>
+						<span class="item color{{color}}" data-index="{{index}}" data-epic="{{epic}}" style="line-height:{{height}}px; font-size:{{fontSize}}px" title="{{title}}">{{CR}}</span>
 					{{/each}}
 				</td>
 			{{/each}}

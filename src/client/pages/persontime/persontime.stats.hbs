@@ -14,8 +14,8 @@
 	<h3>Details ({{crs.length}})</h3>
 	<dl class="colored">
 	{{#each crs}}
-		<dt class="bcolor{{color}}">{{epicName}}</dt>
-		<dd>{{timeDisplay}}<dd>
+		<dt class="bcolor{{color}}" data-epic="{{epic}}">{{epicName}}</dt>
+		<dd data-epic="{{epic}}">{{timeDisplay}}</dd>
 	{{/each}}
 	</dl>
 </div>
@@ -28,21 +28,18 @@
 		<dd>{{selected.timeSpent}} ({{selected.timeSpentRatio}})</dd>
 		{{#if selected.epic}}
 			<dt>Epic:</dt>
-			<dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.epic}}">{{selected.epic}}</a></dd>
-			<dd>{{selected.epicSummary}}</dd>
+			<dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.epic}}">{{selected.epic}}</a> {{selected.epicSummary}}</dd>
 		{{/if}}
 		{{#if selected.storyName}}
 			<dt>Story:</dt>
-			<dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.story}}">{{selected.story}}</a></dd>
-			<dd>{{selected.storyName}}</dd>
+			<dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.story}}">{{selected.story}}</a> {{selected.storyName}}</dd>
 		{{/if}}
 		{{#if selected.task}}
 			<dt>Task:</dt>
-			<dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.task}}">{{selected.task}}</a></dd>
-			<dd>{{selected.taskName}}</dd>
+			<dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.task}}">{{selected.task}}</a> {{selected.taskName}}</dd>
 		{{/if}}
 	{{else}}
-		<dt><em>None - Click on a task to have more details</em></dt>
+		<dt><em>None - Click on a task to see its details</em></dt>
 	{{/if}}
 	</dl>
 </div>

@@ -55,6 +55,9 @@ table.jtime-persontime-table {
 		.item:hover {
 			opacity: 0.8;
 		}
+		.item.dimmed {
+			background-color: var(--light-grey);
+		}
 	}
 	td.invalid h4 {
 		background-color: var(--grey);
