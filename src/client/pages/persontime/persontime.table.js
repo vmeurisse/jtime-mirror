@@ -1,4 +1,5 @@
 import * as bouc from '../../bouc';
+import {showStats} from './persontime.stats';
 
 var table = {};
 
@@ -54,17 +55,22 @@ table.showCalendar = function() {
 	jtime.run.persontime.tableContainer.innerHTML = jtime.tpl.persontime.table({
 		weeks: weeks
 	});
+	jtime.run.persontime.tableContainer.onclick = selectWork;
 };
 
 table.preprocess = function(data) {
 	data.forEach(function(item, index) {
-        item.index = index;
-        item.timeSpentDays = item.timeSpentSeconds / (7 * 3600);
-        item.timeSpentRatio = (item.timeSpentDays * 100).toFixed(0) + '%';
-
-        item.day = item.localStart.slice(0, 10);
+		item.index = index;
+		item.timeSpentDays = item.timeSpentSeconds / (7 * 3600);
+		item.timeSpentRatio = (item.timeSpentDays * 100).toFixed(0) + '%';
+		item.day = item.localStart.slice(0, 10);
 	});
 	return bouc.groupBy(data, 'day');
 };
+
+function selectWork(e) {
+	let index = e.target.getAttribute('data-index');
+	if (index) showStats(+index);
+}
 
 export default table;

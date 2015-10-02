@@ -1,9 +1,7 @@
 import * as bouc from '../../bouc';
 import dateformat from '../../modules/dateformat';
 
-var stats = {};
-
-stats.show = function(selectedWorkIndex) {
+export function showStats(selectedWorkIndex) {
 	let data = jtime.run.data.persontime;
 	data = data.work[data.username] || [];
 
@@ -17,7 +15,7 @@ stats.show = function(selectedWorkIndex) {
 		selected: data[selectedWorkIndex],
 		jiraUrl: jtime.config.jiraUrl
 	});
-};
+}
 
 function getCRs(data) {
 	data = bouc.groupBy(data, 'CR');
@@ -42,5 +40,3 @@ function getTotal(data) {
 function getDays(data) {
 	return Object.keys(bouc.groupBy(data, 'day')).length;
 }
-
-export default stats;
