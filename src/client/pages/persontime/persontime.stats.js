@@ -1,14 +1,14 @@
 import * as bouc from '../../bouc';
 import dateformat from '../../modules/dateformat';
 
-export function showStats(selectedWorkIndex) {
+export function showStats(colorMap, selectedWorkIndex) {
 	let data = jtime.run.data.persontime;
 	data = data.work[data.username] || [];
 
 	let total = getTotal(data);
 	let days = getDays(data);
 	jtime.run.persontime.statsContainer.innerHTML = jtime.tpl.persontime.stats({
-		crs: getCRs(data),
+		crs: getCRs(data, colorMap),
 		total: dateformat.duration(total),
 		days,
 		average: dateformat.duration(total / days),
@@ -17,16 +17,18 @@ export function showStats(selectedWorkIndex) {
 	});
 }
 
-function getCRs(data) {
-	data = bouc.groupBy(data, 'CR');
-	data = bouc.toList(data, 'CR', 'worklogs');
-	data.forEach(function(cr) {
-		cr.time = cr.worklogs.reduce(function(a, b) {
+function getCRs(data, colorMap) {
+	data = bouc.groupBy(data, 'epicName');
+	data = bouc.toList(data, 'epicName', 'worklogs');
+	data.forEach(function(item) {
+		item.time = item.worklogs.reduce(function(a, b) {
 			return a + b.timeSpentSeconds;
 		}, 0);
-		cr.timeDisplay = dateformat.duration(cr.time);
+		item.timeDisplay = dateformat.duration(item.time);
+		item.CR = item.worklogs[0].CR;
+		item.color = colorMap[item.CR];
 	});
-	bouc.sort(data, {key: 'time'}).reverse();
+	bouc.sort(data, {key: 'epicName'});
 	return data;
 }
 

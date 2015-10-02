@@ -1,6 +1,8 @@
 import * as bouc from '../../bouc';
 import {showStats} from './persontime.stats';
 
+var colorMap;
+
 var table = {};
 
 table.showCalendar = function() {
@@ -20,7 +22,7 @@ table.showCalendar = function() {
 	var weeks = [];
 	
 	var nextColor = 0;
-	var colorMap = {};
+	colorMap = {};
 	
 	for (var w = 0; w < nbWeeks; w++) {
 		var days = [];
@@ -46,7 +48,8 @@ table.showCalendar = function() {
 			days.push({
 				date: inmonth ? cur.getDate() : null,
 				works: works,
-				invalid: inmonth && totalDay !== 7 * 3600
+				invalid: inmonth && totalDay !== 7 * 3600,
+				total: (totalDay / (7 * 3600) * 100).toFixed(0) + '%'
 			});
 			cur.setTime(cur.getTime() + 86400000);
 		}
@@ -55,7 +58,10 @@ table.showCalendar = function() {
 	jtime.run.persontime.tableContainer.innerHTML = jtime.tpl.persontime.table({
 		weeks: weeks
 	});
+
 	jtime.run.persontime.tableContainer.onclick = selectWork;
+
+	return colorMap;
 };
 
 table.preprocess = function(data) {
@@ -70,7 +76,7 @@ table.preprocess = function(data) {
 
 function selectWork(e) {
 	let index = e.target.getAttribute('data-index');
-	if (index) showStats(+index);
+	if (index) showStats(colorMap, +index);
 }
 
 export default table;

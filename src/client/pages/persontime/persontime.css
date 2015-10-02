@@ -25,11 +25,20 @@
 
 .jtime-persontime-controls {
 	margin: 1em;
+	float: left;
+	
+	a.button {
+		display: block;
+		float: left;
+		clear: left;
+		margin: 0px 5px 5px 0px;
+	}
 }
 
 .jtime-persontime-container {
 	display: flex;
 	flex-wrap: wrap;
+	clear: left;
 }
 .jtime-persontime-subcontainer {
 	min-width: 320px;
