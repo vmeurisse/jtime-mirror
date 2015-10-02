@@ -90,7 +90,7 @@ exports.issues = function(params) {
 		if (!validDate(params.minDate) || !validDate(params.maxDate)) {
 			return Promise.reject(new Error('invalid date query'));
 		}
-		jql.push('created <= "' + params.maxDate + '" AND updated >= "' + params.minDate + '"');
+		jql.push('created <= "' + params.maxDate + ' 23:59" AND updated >= "' + params.minDate + '"');
 	} else {
 		jql.push('sprint in openSprints()');
 	}
