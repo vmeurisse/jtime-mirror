@@ -18,7 +18,20 @@
 	dl.colored dt {
 		border-left-width: 6px;
 		border-left-style: solid;
-		padding-left: 4px;
+		padding: 1px 0px 1px 4px;
+		float: left;
+		clear: left;
+	}
+	
+	dl.colored dd {
+		text-align: right;
+		padding: 1px 7px 2px 0px;
+		border-radius: 0px 6px 6px 0px;
+		margin: 0px;
+	}
+	
+	dl.colored dd.highlighted {
+		background-color: var(--light-grey);
 	}
 	
 	.bcolor0 {border-color: var(--color0);}
