@@ -1,0 +1,14 @@
+<div class="header">
+	<h2>Spent Report: {{data.project}} - Board {{data.board}}</h2>
+</div>
+
+<div class="jtime-spent-controls">
+	{{#each sprints}}
+		<a class="button" onclick="jtime.run.spent.select(this, {{id}});">{{name}} ({{formatDay startDate}} - {{formatDay endDate}})</a>
+	{{else}}
+		No active or closed sprint in this board
+	{{/each}}
+</div>
+<div class="jtime-spent-report">
+	{{> spent-report}}
+</div>

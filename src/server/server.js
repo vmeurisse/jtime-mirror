@@ -20,7 +20,7 @@ function handleError(res, error) {
 	});
 }
 
-app.get(['/projects/:project', '/projects/:project/:date'], function(req, res) {
+app.get(['/projects/:project', '/projects/:project/:date', '/projects/:project/boards/:board'], function(req, res) {
 	res.sendFile('index.html', {
 		root: root
 	});
@@ -46,6 +46,12 @@ app.all('/api/worklog/:projectKey/:date', function(req, res) {
 		maxDate: req.params.date + '-' + lastDayOfMonth
 	}).then(function(log) {
 		res.json(log);
+	}).catch(handleError.bind(null, res));
+});
+
+app.get('/api/boards/:boardId/sprints', function(req, res) {
+	jira.sprints(req.params.boardId).then(function(sprints) {
+		res.json(sprints);
 	}).catch(handleError.bind(null, res));
 });
 

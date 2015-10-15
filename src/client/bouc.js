@@ -241,3 +241,21 @@ export function sort(list, sorters) {
 	}
 	return list;
 }
+
+/**
+ * Returns the first item in the list where the specified key has the specified value.
+ * @param {Object[]} list - list of data to look in
+ * @param {string} key - key to filter on
+ * @param {string} value - value to look for (test is done with strict equality)
+ * @returns {Object} the first matching element, undefined if none.
+ */
+export function getFirstItem(list, key, value) {
+	var result;
+	for (var i = 0, len = list.length; i < len; i++) {
+		if (list[i][key] === value) {
+			result = list[i];
+			break;
+		}
+	}
+	return result;
+}

@@ -151,7 +151,8 @@ function extractCRs(worklogs) {
 				  extractCRFromName(work.epicName) ||
 		          extractCRFromName(work.epicSummary) ||
 		          extractCRFromName(work.storyName) ||
-		          extractCRFromName(work.taskName);
+		          extractCRFromName(work.taskName) ||
+		          extractTagFromName(work.epicName);
 	});
 	return worklogs;
 }
@@ -159,5 +160,11 @@ function extractCRs(worklogs) {
 function extractCRFromName(name) {
 	if (!name) return null;
 	var match = name.match(/\b[01]?\d{7}\b/);
+	if (match) return match[0];
+}
+
+function extractTagFromName(name) {
+	if (!name) return null;
+	var match = name.match(/^\[[\w]+\]/);
 	if (match) return match[0];
 }
