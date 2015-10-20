@@ -1,4 +1,7 @@
 import * as bouc from '../../bouc';
+import {showStats} from './persontime.stats';
+
+var colorMap;
 
 var table = {};
 
@@ -19,7 +22,7 @@ table.showCalendar = function() {
 	var weeks = [];
 	
 	var nextColor = 0;
-	var colorMap = {};
+	colorMap = {};
 	
 	for (var w = 0; w < nbWeeks; w++) {
 		var days = [];
@@ -36,23 +39,17 @@ table.showCalendar = function() {
 					colorMap[work.CR] = nextColor;
 					if (nextColor !== 9) nextColor++;
 				}
-				work.height = Math.max(10, work.timeSpentSeconds * 80 / (7 * 3600) - 5); //-5 to account margin
+				work.height = Math.max(10, work.timeSpentDays * 80 - 5); //-5 to account margin
 				work.fontSize = Math.min(16, work.height / 1.2);
-				
-				var title = [`spent: ${work.timeSpent} (${(work.timeSpentSeconds / (7 * 3600) * 100).toFixed(0)}%)`];
-				if (work.task) title.push(`${work.task} - ${work.taskName}`);
-				if (work.story) title.push(`${work.story} - ${work.storyName}`);
-				if (work.epic) title.push(`${work.epic} - ${work.epicSummary}`);
-				if (work.epicName !== work.epicSummary) title.push(`${work.epic} - ${work.epicName}`);
-				
-				work.title = title.join('\n');
+				work.title = `spent: ${work.timeSpent} (${work.timeSpentRatio})`;
 				totalDay += work.timeSpentSeconds;
 			});
 			var inmonth = cur.getMonth() === month;
 			days.push({
 				date: inmonth ? cur.getDate() : null,
 				works: works,
-				invalid: inmonth && totalDay !== 7 * 3600
+				invalid: inmonth && totalDay !== 7 * 3600,
+				total: (totalDay / (7 * 3600) * 100).toFixed(0) + '%'
 			});
 			cur.setTime(cur.getTime() + 86400000);
 		}
@@ -61,13 +58,25 @@ table.showCalendar = function() {
 	jtime.run.persontime.tableContainer.innerHTML = jtime.tpl.persontime.table({
 		weeks: weeks
 	});
+
+	jtime.run.persontime.tableContainer.onclick = selectWork;
+
+	return colorMap;
 };
 
 table.preprocess = function(data) {
-	data.forEach(function(item) {
+	data.forEach(function(item, index) {
+		item.index = index;
+		item.timeSpentDays = item.timeSpentSeconds / (7 * 3600);
+		item.timeSpentRatio = (item.timeSpentDays * 100).toFixed(0) + '%';
 		item.day = item.localStart.slice(0, 10);
 	});
 	return bouc.groupBy(data, 'day');
 };
+
+function selectWork(e) {
+	let index = e.target.getAttribute('data-index');
+	if (index) showStats(colorMap, +index);
+}
 
 export default table;

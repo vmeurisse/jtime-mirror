@@ -113,6 +113,7 @@ function resolveEpic(worklogs) {
 					worklogMap[epic.key].forEach(function(log) {
 						log.epicSummary = epic.fields.summary;
 						log.epicName = epic.fields.customfield_10007;
+						log.changeRequest = epic.fields.customfield_11100;
 					});
 				});
 				queries.push(query);
@@ -146,10 +147,12 @@ function resolveUser(worklogs) {
 
 function extractCRs(worklogs) {
 	worklogs.forEach(function(work) {
-		work.CR = extractCRFromName(work.epicName) ||
+		work.CR = work.changeRequest ||
+				  extractCRFromName(work.epicName) ||
 		          extractCRFromName(work.epicSummary) ||
 		          extractCRFromName(work.storyName) ||
-		          extractCRFromName(work.taskName);
+		          extractCRFromName(work.taskName) ||
+		          extractTagFromName(work.epicName);
 	});
 	return worklogs;
 }
@@ -157,5 +160,11 @@ function extractCRs(worklogs) {
 function extractCRFromName(name) {
 	if (!name) return null;
 	var match = name.match(/\b[01]?\d{7}\b/);
+	if (match) return match[0];
+}
+
+function extractTagFromName(name) {
+	if (!name) return null;
+	var match = name.match(/^\[[\w]+\]/);
 	if (match) return match[0];
 }

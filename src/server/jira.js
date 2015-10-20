@@ -29,6 +29,7 @@ jira.registerMethod('search', config.JIRA_URL + 'rest/api/2/search');
 jira.registerMethod('worklog', config.JIRA_URL + 'rest/api/2/issue/${issue}/worklog');
 jira.registerMethod('issue', config.JIRA_URL + 'rest/api/2/issue/${issue}');
 jira.registerMethod('user', config.JIRA_URL + 'rest/api/2/user');
+jira.registerMethod('sprints', config.JIRA_URL + 'rest/agile/1.0/board/${board}/sprint');
 
 var validProject = function(key) {
 	return typeof key === 'string' && /^[a-z]+$/i.test(key);
@@ -90,7 +91,7 @@ exports.issues = function(params) {
 		if (!validDate(params.minDate) || !validDate(params.maxDate)) {
 			return Promise.reject(new Error('invalid date query'));
 		}
-		jql.push('created <= "' + params.maxDate + '" AND updated >= "' + params.minDate + '"');
+		jql.push('created <= "' + params.maxDate + ' 23:59" AND updated >= "' + params.minDate + '"');
 	} else {
 		jql.push('sprint in openSprints()');
 	}
@@ -175,6 +176,26 @@ exports.user = function(username) {
 			}
 		}, cacheKey).then(function(data) {
 			longCache.set(cacheKey, data);
+			return data;
+		});
+	}
+};
+
+exports.sprints = function(boardId) {
+	var cacheKey = 'sprints:' + boardId;
+	var sprints = mediumCache.get(cacheKey);
+	if (sprints) {
+		return Promise.resolve(sprints);
+	} else {
+		return jira.sprints({
+			path: {
+				board: boardId
+			},
+			parameters: {
+				state: 'active,closed'
+			}
+		}, cacheKey).then(function(data) {
+			mediumCache.set(cacheKey, data);
 			return data;
 		});
 	}

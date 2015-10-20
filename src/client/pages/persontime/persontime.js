@@ -3,7 +3,7 @@ import page from 'page';
 import i18n from '../../jtime.i18n';
 import * as bouc from '../../bouc';
 
-import stats from './persontime.stats';
+import {showStats} from './persontime.stats';
 import table from './persontime.table';
 
 var persontime = {};
@@ -83,8 +83,8 @@ persontime.draw = function() {
 	jtime.run.persontime.tableContainer = jtime.run.container.querySelector('.jtime-persontime-table-container');
 	jtime.run.persontime.statsContainer = jtime.run.container.querySelector('.jtime-persontime-stats-container');
 	if (hasWork) {
-		table.showCalendar();
-		stats.show();
+		var colorMap = table.showCalendar();
+		showStats(colorMap);
 	}
 };
 
@@ -105,5 +105,4 @@ persontime.getUserList = function() {
 	}
 	return users.sort((a, b) => a.displayname > b.displayname);
 };
-
 

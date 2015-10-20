@@ -20,7 +20,7 @@ table.jtime-persontime-table {
 	width: 100%;
 	
 	td {
-		width: 14%;
+		width: 17%;
 		height: 110px;
 		padding: 2px;
 		
@@ -33,18 +33,46 @@ table.jtime-persontime-table {
 			margin: 0;
 			font-size: 16px;
 			line-height: 19px;
+			
+			em.totalDay {
+				background: url('img/tick.png') center right no-repeat;
+				color: transparent;
+				font-weight: normal;
+				font-style: normal;
+				font-size: 60%;
+				float: right;
+			}
 		}
-		span {
+		.item {
 			color: white;
 			display: block;
 			border-radius: 5px;
 			font-weight: bold;
 			margin: 5px 0 1px;
 			text-align: center;
+			cursor: pointer;
+		}
+		.item:hover {
+			opacity: 0.8;
+		}
+		.item.dimmed {
+			background-color: var(--light-grey);
 		}
 	}
 	td.invalid h4 {
 		background-color: var(--grey);
 		color: white;
+		
+		em.totalDay {
+			background-image: none;
+			color: #333333;
+		}
+	}
+	td:nth-last-child(-n+2) { /* less data for weekend days - assumes Sat/Sun are at the end */
+		width: 7%;
+		
+		em.totalDay {
+			display: none;
+		}
 	}
 }

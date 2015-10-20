@@ -1,0 +1,22 @@
+{{#if sprint}}
+	<p>Spent report for sprint: {{sprint.name}}</p>
+	<ul>
+		<li>Productive: <strong>{{productive}}</strong></li>
+		<li>Noise: <strong>{{noise}}</strong></li>
+		<li>Time off: <strong>{{off}}</strong></li>
+		<li>Unknown: <strong>{{unknown}}</strong> (check console for details)</li>
+	</ul>
+{{else}}
+	<p>Select a sprint on the left to see here the corresponding spent report.</p>
+	<p>Some definitions:</p>
+	<dl>
+		<dt>Productive</dt>
+		<dd>Time spent on tasks related to the project and useful, whether initially anticipated or not.</dd>
+		<dt>Noise</dt>
+		<dd>Time spent on tasks either not related to the project or that took a lot more time than they usually do. This highlights focus pollution or issues in processes or tools. It gives areas of improvement to increase efficiency and focus. Rule: epic name starts with '[NOISE]' (other strategies can be discussed).</dd>
+		<dt>Time off</dt>
+		<dd>Holidays, training, staff briefing, ... Time where team members are not present at work. Rule: epic name starts with '[OFF]' (other strategies can be discussed).</dd>
+		<dt>Unknown</dt>
+		<dd>Anything the tool can not identify (so basically not related to any epic). You can check the console for details. Typically, you may find bug fixing here - I suggest you assign bugs to their related epic, so they are categorized in productive work.</dd>
+	</dl>
+{{/if}}
