@@ -24,7 +24,7 @@
 				You can choose another team member below:<br/><br/>
 			{{/if}}
 			{{#each users}}
-				<a class="button" href="{{url}}">{{displayname}}</a>
+				<a class="button" href="{{url}}"><img src="{{userAvatar}}" class="avatar"> {{displayname}}</a>
 			{{/each}}
 		{{else}}
 			Nobody worked in the project in {{title}}

@@ -96,8 +96,10 @@ persontime.getUserList = function() {
 	var users = [];
 	for (var username in data.work) {
 		query.user = username;
+		let user = data.work[username][0];
 		users.push({
-			displayname: data.work[username][0].userDisplayName || username,
+			displayname: user.userDisplayName || username,
+			userAvatar: user.userAvatar,
 			username: username,
 			url: data.ctx.pathname + '?' + bouc.serializeParams(query),
 			current: data.username === username

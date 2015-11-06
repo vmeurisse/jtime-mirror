@@ -135,6 +135,7 @@ function resolveUser(worklogs) {
 			var tz = user && user.timeZone || 'UTC';
 			worklogMap[userName].forEach(function(log) {
 				log.userDisplayName = displayName;
+				log.userAvatar = user.avatarUrls['32x32'];
 				log.localStart = moment(log.start).tz(tz).format();
 			});
 		}.bind(null, username));
