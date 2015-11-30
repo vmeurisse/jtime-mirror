@@ -1,7 +1,6 @@
 {
 	"env": {
 		"browser": true,
-		"es6": true
 	},
 	"ecmaFeatures": {
 		"modules": true
@@ -11,8 +10,5 @@
 		"$$": false,
 		"jtime": false,
 		"Handlebars": false
-	},
-	"rules": {
-		"no-console": false
 	}
 }

@@ -30,7 +30,7 @@ table.showCalendar = function() {
 			var date = cur.toISOString().slice(0, 10);
 			var works = worklogs[date] || [];
 			var totalDay = 0;
-			works.forEach(function(work) {
+			works.forEach(work => {
 				work.CR = work.CR || 'No CR';
 				if (work.CR in colorMap) {
 					work.color = colorMap[work.CR];
@@ -49,7 +49,7 @@ table.showCalendar = function() {
 				date: inmonth ? cur.getDate() : null,
 				works: works,
 				invalid: inmonth && totalDay !== 7 * 3600,
-				total: (totalDay / (7 * 3600) * 100).toFixed(0) + '%'
+				total: `${(totalDay / (7 * 3600) * 100).toFixed(0)}%`
 			});
 			cur.setTime(cur.getTime() + 86400000);
 		}
@@ -65,10 +65,10 @@ table.showCalendar = function() {
 };
 
 table.preprocess = function(data) {
-	data.forEach(function(item, index) {
+	data.forEach((item, index) => {
 		item.index = index;
 		item.timeSpentDays = item.timeSpentSeconds / (7 * 3600);
-		item.timeSpentRatio = (item.timeSpentDays * 100).toFixed(0) + '%';
+		item.timeSpentRatio = `${(item.timeSpentDays * 100).toFixed(0)}%`;
 		item.day = item.localStart.slice(0, 10);
 	});
 	return bouc.groupBy(data, 'day');

@@ -6,6 +6,4 @@ var dateFormatter = new Intl.DateTimeFormat(i18n.locale, {
 	day: 'numeric'
 });
 
-Handlebars.registerHelper('formatDay', function(dateStr) {
-	return dateFormatter.format(new Date(dateStr));
-});
+Handlebars.registerHelper('formatDay', dateStr => dateFormatter.format(new Date(dateStr)));

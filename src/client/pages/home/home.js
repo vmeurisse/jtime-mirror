@@ -26,11 +26,11 @@ home.show = function() {
 home.acQuery = function(query) {
 	if (query.length < 2) return Promise.resolve(null);
 	return home.getAcData()
-		.then(function(data) {
+		.then(data => {
 			query = query.toLocaleLowerCase();
-			return data.filter(function(project) {
-				return project.name.toLocaleLowerCase().indexOf(query) >= 0 || project.key.toLocaleLowerCase().indexOf(query) >= 0;
-			});
+			return data.filter(project =>
+				project.name.toLocaleLowerCase().indexOf(query) >= 0 || project.key.toLocaleLowerCase().indexOf(query) >= 0
+			);
 		});
 };
 
@@ -39,12 +39,12 @@ home.getAcData = function() {
 	if (!jtime.run.home.getAcData) {
 		jtime.run.home.getAcData = fetch('/api/projects')
 				.then(response => response.json())
-				.then(function(data) {
+				.then(data => {
 					jtime.run.data.home.projects = data;
 					delete jtime.run.home.getAcData;
 					return data;
 				})
-				.catch(function() {
+				.catch(() => {
 					delete jtime.run.home.getAcData;
 				});
 	}

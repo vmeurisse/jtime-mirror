@@ -14,7 +14,7 @@ var amdOptimize = require('amd-optimize');
 var eslint = require('gulp-eslint');
 
 var postcss = require('gulp-postcss');
-var autoprefixer = require('autoprefixer-core');
+var autoprefixer = require('autoprefixer');
 var calc = require('postcss-calc');
 var nested = require('postcss-nested');
 var customProperties = require('postcss-custom-properties');
@@ -65,7 +65,7 @@ var mario = function() {
 };
 
 var reloadPipe = lazypipe().pipe(filter, ['*', '!*.map'])
-	                       .pipe(function () { return gulpif(watch, livereload()); });
+                           .pipe(function () { return gulpif(watch, livereload()); });
 
 gulp.task('build', ['_scripts', '_style', '_markup', '_statics', '_templates', '_server', '_checkdeps']);
 
@@ -132,8 +132,8 @@ function getSourceModules() {
 		.pipe(eslint.format())
 		.pipe(eslint.failAfterError())
 		.pipe(babel({
-			modules: 'amd',
-			blacklist: ['strict']
+			presets: ['es2015'],
+			plugins: ['transform-es2015-modules-amd']
 		}))
 		.pipe(remember('scripts'));
 }
@@ -228,7 +228,9 @@ gulp.task('_templates', function() {
 	                   [/\{\{#unless\s+\w+\}\}/, /\{\{\/unless\}\}/]
 	               ]
 	           }))
-	           .pipe(handlebars())
+	           .pipe(handlebars({
+	               handlebars: require('handlebars')
+	           }))
 	           .pipe(wrap('Handlebars.template(<%= contents %>)'))
 	           .pipe(remember('templates'))
 	           .pipe(declare({
@@ -245,7 +247,8 @@ gulp.task('_checkdeps', function() {
 	return new Promise(function(fulfill, reject) {
 		var depcheck = require('depcheck');
 		var options = {
-			'ignoreDirs': ['build', 'client']
+			'ignoreDirs': ['build', 'client'],
+			'ignoreMatches': ['babel-plugin-transform-es2015-modules-amd', 'babel-preset-es2015']
 		};
 		depcheck(__dirname, options, function(unused) {
 			if (Object.keys(unused.invalidFiles).length) {

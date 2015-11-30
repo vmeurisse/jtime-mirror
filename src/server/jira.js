@@ -12,24 +12,22 @@ var jira = {
 		rest.registerMethod(name, url, 'GET');
 		jira[name] = function(args, key) {
 			var start = new Date();
-			return new Promise(function(fulfill, reject) {
-				rest.methods[name](args, function(data) {
-					console.log(new Date() + ' jira (' + (new Date() - start) + 'ms) ' + (key || name));
+			return new Promise((fulfill, reject) => {
+				rest.methods[name](args, data => {
+					console.log(`${new Date()} jira (${new Date() - start}ms) ${key || name}`);
 					fulfill(data);
-				}).on('error', function(err) {
-					reject(err);
-				});
+				}).on('error', reject);
 			});
 		};
 	}
 };
 
-jira.registerMethod('projects', config.JIRA_URL + 'rest/api/2/project');
-jira.registerMethod('search', config.JIRA_URL + 'rest/api/2/search');
-jira.registerMethod('worklog', config.JIRA_URL + 'rest/api/2/issue/${issue}/worklog');
-jira.registerMethod('issue', config.JIRA_URL + 'rest/api/2/issue/${issue}');
-jira.registerMethod('user', config.JIRA_URL + 'rest/api/2/user');
-jira.registerMethod('sprints', config.JIRA_URL + 'rest/agile/1.0/board/${board}/sprint');
+jira.registerMethod('projects', `${config.JIRA_URL}rest/api/2/project`);
+jira.registerMethod('search', `${config.JIRA_URL}rest/api/2/search`);
+jira.registerMethod('worklog', `${config.JIRA_URL}rest/api/2/issue/\${issue}/worklog`);
+jira.registerMethod('issue', `${config.JIRA_URL}rest/api/2/issue/\${issue}`);
+jira.registerMethod('user', `${config.JIRA_URL}rest/api/2/user`);
+jira.registerMethod('sprints', `${config.JIRA_URL}rest/agile/1.0/board/\${board}/sprint`);
 
 var validProject = function(key) {
 	return typeof key === 'string' && /^[a-z]+$/i.test(key);
@@ -61,7 +59,7 @@ function storeIssue(issue) {
 	if (issue.fields && issue.fields.updated) {
 		issue.date = new Date(issue.fields.updated);
 	}
-	longCache.set('issue:' + issue.key, issue);
+	longCache.set(`issue:${issue.key}`, issue);
 }
 
 exports.projects = function() {
@@ -69,7 +67,7 @@ exports.projects = function() {
 	if (projects) {
 		return Promise.resolve(projects);
 	} else {
-		return jira.projects().then(function(data) {
+		return jira.projects().then(data => {
 			mediumCache.set('projects', data);
 			return data;
 		});
@@ -81,7 +79,7 @@ exports.issues = function(params) {
 	if (!validProject(params.projectKey)) {
 		return Promise.reject(new Error('invalid project key'));
 	}
-	jql.push('project = ' + params.projectKey);
+	jql.push(`project = ${params.projectKey}`);
 
 	if (params.loggedWork) {
 		jql.push('timespent > 0');
@@ -91,14 +89,14 @@ exports.issues = function(params) {
 		if (!validDate(params.minDate) || !validDate(params.maxDate)) {
 			return Promise.reject(new Error('invalid date query'));
 		}
-		jql.push('created <= "' + params.maxDate + ' 23:59" AND updated >= "' + params.minDate + '"');
+		jql.push(`created <= "${params.maxDate} 23:59" AND updated >= "${params.minDate}"`);
 	} else {
 		jql.push('sprint in openSprints()');
 	}
 
 	jql = jql.join(' AND ');
 	
-	var cacheKey = 'issues:' + jql;
+	var cacheKey = `issues:${jql}`;
 	var issues = shortCache.get(cacheKey);
 	if (issues) {
 		return Promise.resolve(issues);
@@ -109,14 +107,12 @@ exports.issues = function(params) {
 				jql: jql,
 				fields: 'summary,updated,parent,issuetype,customfield_10006,customfield_10007'
 			}
-		}, cacheKey).then(function(data) {
+		}, cacheKey).then(data => {
 			if (data.maxResults <= data.total) {
 				return Promise.reject(new Error('Too many results returned'));
 			} else {
 				if (data.issues) {
-					data.issues.forEach(function (issue) {
-						storeIssue(issue);
-					});
+					data.issues.forEach(storeIssue);
 				}
 				shortCache.set(cacheKey, data.issues);
 				return data.issues;
@@ -126,7 +122,7 @@ exports.issues = function(params) {
 };
 
 exports.issue = function(key) {
-	var cacheKey = 'issue:' + key;
+	var cacheKey = `issue:${key}`;
 	var issue = longCache.get(cacheKey);
 	if (issue) {
 		return Promise.resolve(issue);
@@ -136,7 +132,7 @@ exports.issue = function(key) {
 				issue: key,
 				fields: 'summary,updated,parent,issuetype,customfield_10006,customfield_10007'
 			}
-		}, cacheKey).then(function(data) {
+		}, cacheKey).then(data => {
 			storeIssue(data);
 			return data;
 		});
@@ -145,7 +141,7 @@ exports.issue = function(key) {
 
 exports.worklog = function(issue) {
 	var key = issue.key;
-	var cacheKey = 'worklog:' + key;
+	var cacheKey = `worklog:${key}`;
 	var worklog = longCache.get(cacheKey);
 	if (worklog && worklog.date >= issue.date) {
 		return Promise.resolve(worklog.logs);
@@ -154,7 +150,7 @@ exports.worklog = function(issue) {
 			path: {
 				issue: key
 			}
-		}, cacheKey).then(function(data) {
+		}, cacheKey).then(data => {
 			longCache.set(cacheKey, {
 				logs: data.worklogs,
 				date: new Date()
@@ -165,7 +161,7 @@ exports.worklog = function(issue) {
 };
 
 exports.user = function(username) {
-	var cacheKey = 'user:' + username;
+	var cacheKey = `user:${username}`;
 	var user = longCache.get(cacheKey);
 	if (user) {
 		return Promise.resolve(user);
@@ -174,7 +170,7 @@ exports.user = function(username) {
 			parameters: {
 				username: username
 			}
-		}, cacheKey).then(function(data) {
+		}, cacheKey).then(data => {
 			longCache.set(cacheKey, data);
 			return data;
 		});
@@ -182,7 +178,7 @@ exports.user = function(username) {
 };
 
 exports.sprints = function(boardId) {
-	var cacheKey = 'sprints:' + boardId;
+	var cacheKey = `sprints:${boardId}`;
 	var sprints = mediumCache.get(cacheKey);
 	if (sprints) {
 		return Promise.resolve(sprints);
@@ -194,7 +190,7 @@ exports.sprints = function(boardId) {
 			parameters: {
 				state: 'active,closed'
 			}
-		}, cacheKey).then(function(data) {
+		}, cacheKey).then(data => {
 			mediumCache.set(cacheKey, data);
 			return data;
 		});

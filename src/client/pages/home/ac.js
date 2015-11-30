@@ -25,7 +25,6 @@ class AC {
 	
 	/**
 	 * Called when user is typing text in the input
-	 * @param {Event} e - the event
 	 * @private
 	 */
 	oninput() {

@@ -2,9 +2,9 @@
 	"name": "jtime",
 	"version": "1.0.0",
 	"devDependencies": {
-		"fetch": "0.7.0",
-		"handlebars": "3.0.0",
+		"fetch": "0.10.1",
+		"handlebars": "4.0.5",
 		"hazelnut": "0.3.0",
-		"page.js": "1.6.1"
+		"page.js": "1.6.4"
 	}
 }

@@ -21,7 +21,7 @@ persontime.show = function(ctx) {
 		project: ctx.params.project,
 		date: ctx.params.date,
 		query: bouc.parseQuery(ctx.querystring),
-		currentMonth: today.getFullYear() + '-' + bouc.zeropad(today.getMonth() + 1, 2)
+		currentMonth: `${today.getFullYear()}-${bouc.zeropad(today.getMonth() + 1, 2)}`
 	};
 	if (!data.date) {
 		data.date = data.currentMonth;
@@ -62,10 +62,10 @@ persontime.draw = function() {
 	data.firstDayOfMonth = firstDayOfMonth;
 
 	var prevmonth, nextmonth;
-	if (month === 0) prevmonth = (year - 1) + '-12';
-	else prevmonth = year + '-' + bouc.zeropad(month, 2);
-	if (month === 11) nextmonth = (year + 1) + '-01';
-	else nextmonth = year + '-' + bouc.zeropad(month + 2, 2);
+	if (month === 0) prevmonth = `${year - 1}-12`;
+	else prevmonth = `${year}-${bouc.zeropad(month, 2)}`;
+	if (month === 11) nextmonth = `${year + 1}-01`;
+	else nextmonth = `${year}-${bouc.zeropad(month + 2, 2)}`;
 	
 	var dateFormater = new Intl.DateTimeFormat(i18n.locale, {
 		year: 'numeric',
@@ -101,7 +101,7 @@ persontime.getUserList = function() {
 			displayname: user.userDisplayName || username,
 			userAvatar: user.userAvatar,
 			username: username,
-			url: data.ctx.pathname + '?' + bouc.serializeParams(query),
+			url: `${data.ctx.pathname}?${bouc.serializeParams(query)}`,
 			current: data.username === username
 		});
 	}

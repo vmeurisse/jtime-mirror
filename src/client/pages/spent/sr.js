@@ -14,23 +14,26 @@ sr.sumTime = function(workLog) {
 	return sum / (7 * 3600); // convert to days
 };
 
-sr.getMonthId = function(y, m) {
-	return y + '-' + bouc.zeropad(m + 1, 2);
+sr.getMonthId = function(year, month) {
+	return `${year}-${bouc.zeropad(month + 1, 2)}`;
 };
 
 sr.getMonths = function(start, end) {
 	var months = [];
 	end = new Date(end);
-	var e = sr.getMonthId(end.getFullYear(), end.getMonth());
-	var date = new Date(start);
-	var y = date.getFullYear();
-	var m = date.getMonth();
+	end = sr.getMonthId(end.getFullYear(), end.getMonth());
+	start = new Date(start);
+	var year = start.getFullYear();
+	var month = start.getMonth();
 	do {
-		var s = sr.getMonthId(y, m);
-		months.push(s);
-		m++;
-		if (m === 12) { m = 0; y++; }
-	} while (s < e);
+		var date = sr.getMonthId(year, month);
+		months.push(date);
+		month++;
+		if (month === 12) {
+			month = 0;
+			year++;
+		}
+	} while (date < end);
 	return months;
 };
 
@@ -45,10 +48,9 @@ sr.grabMultiple = function(project, dates) {
 };
 
 sr.filter = function(work, start, end) {
-	return work.filter(function(item) {
+	return work.filter(item => {
 		var itemDate = new Date(item.localStart);
-		var ok = (itemDate >= start) && (itemDate <= end);
-		return ok;
+		return (itemDate >= start) && (itemDate <= end);
 	});
 };
 
@@ -94,7 +96,7 @@ sr.aggregateByEpic = function(work) {
 			'issues': sr.aggregateByStory(list)
 		};
 	}
-	sr.log('Sprint spent: ', report);
+	console.log('Sprint spent: ', report);
 	return report;
 };
 
@@ -118,8 +120,8 @@ sr.report = function(epicReport) {
 	for (var epic in epicReport) {
 		var epicData = epicReport[epic];
 		if (epic === 'undefined') {
-			report.unknown = epicData.timeSpentDays.toFixed(2) + 'd';
-			sr.log('Unknown spent: ', epicData);
+			report.unknown = `${epicData.timeSpentDays.toFixed(2)}d`;
+			console.log('Unknown spent: ', epicData);
 		} else if (sr.isNoise(epicData)) {
 			totalNoise += epicData.timeSpentDays;
 		} else if (sr.isOff(epicData)) {
@@ -128,18 +130,14 @@ sr.report = function(epicReport) {
 			totalProductive += epicData.timeSpentDays;
 		}
 	}
-	report.productive = totalProductive.toFixed(2) + 'd';
-	report.noise = totalNoise.toFixed(2) + 'd';
-	report.off = totalOff.toFixed(2) + 'd';
+	report.productive = `${totalProductive.toFixed(2)}d`;
+	report.noise = `${totalNoise.toFixed(2)}d`;
+	report.off = `${totalOff.toFixed(2)}d`;
 	return report;
 };
 
-sr.log = function() {
-	console.log.apply(console, arguments);
-};
-
 sr.run = function(project, sprint) {
-	sr.log('Sprint: ', sprint.name);
+	console.log('Sprint: ', sprint.name);
 	return sr.grabMultiple(project, sr.getMonths(sprint.startDate, sprint.endDate))
 		.then(work => sr.filter(work, new Date(sprint.startDate), new Date(sprint.endDate)))
 		.then(sr.analyze)

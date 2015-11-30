@@ -22,10 +22,8 @@ export function showStats(colorMap, selectedWorkIndex) {
 function getCRs(data, colorMap) {
 	data = bouc.groupBy(data, 'epicName');
 	data = bouc.toList(data, 'epicName', 'worklogs');
-	data.forEach(function(item) {
-		item.time = item.worklogs.reduce(function(a, b) {
-			return a + b.timeSpentSeconds;
-		}, 0);
+	data.forEach(item => {
+		item.time = getTotal(item.worklogs);
 		item.timeDisplay = dateformat.duration(item.time);
 		item.CR = item.worklogs[0].CR;
 		item.color = colorMap[item.CR];
@@ -37,10 +35,7 @@ function getCRs(data, colorMap) {
 }
 
 function getTotal(data) {
-	let total = data.reduce(function(a, b) {
-		return a + b.timeSpentSeconds;
-	}, 0);
-	return total;
+	return data.reduce((a, b) => a + b.timeSpentSeconds, 0);
 }
 
 function getDays(data) {

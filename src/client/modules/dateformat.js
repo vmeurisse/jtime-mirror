@@ -1,5 +1,3 @@
-import * as bouc from '../bouc';
-
 let dateformat = {};
 
 const S_PER_MIN = 60;
@@ -16,13 +14,13 @@ dateformat.duration = function(sec) {
 	
 	let display = [];
 	if (days) {
-		display.push(days + 'd');
+		display.push(`${days}d`);
 	}
 	if (hours) {
-		display.push(hours + 'h');
+		display.push(`${hours}h`);
 	}
 	if (minutes) {
-		display.push(minutes + 'm');
+		display.push(`${minutes}m`);
 	}
 	return display.join(' ');
 };

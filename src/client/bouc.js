@@ -1,6 +1,6 @@
 export function groupBy(list, key) {
 	var map = {};
-	list.forEach(function(item) {
+	list.forEach(item => {
 		var value = find(item, key);
 		if (!map[value]) map[value] = [];
 		map[value].push(item);
@@ -36,13 +36,13 @@ export function defaults(base, extender) {
  * ````
  * 
  * @param {string} querystring - The query string to parse. It should not contain the initial `?` sign
- * @return {Object} The parsed object
+ * @returns {Object} The parsed object
  */
 export function parseQuery(querystring) {
 	var query = {};
 	if (!querystring) return query;
 	var params = querystring.split('&');
-	params.forEach(function(param) {
+	params.forEach(param => {
 		var [key, value] = param.split('=');
 		key = decodeURIComponent(key);
 		value = value === undefined ? value : decodeURIComponent(value);
@@ -79,7 +79,7 @@ export function parseQuery(querystring) {
  * ````
  * 
  * @param {Object} params - The parameters to serialize
- * @return {string} The query string. Note that it doesn't contain an initial `?`.
+ * @returns {string} The query string. Note that it doesn't contain an initial `?`.
  */
 export function serializeParams(params) {
 	var queryVars = [];
@@ -102,7 +102,7 @@ function getEncodedParam(key, value) {
 	}
 	let encoded = encodeURIComponent(key);
 	if (value !== undefined) {
-		encoded += '=' + encodeURIComponent(value);
+		encoded += `=${encodeURIComponent(value)}`;
 	}
 	return encoded;
 }
@@ -115,7 +115,7 @@ export function zeropad(n, w) {
 		return n;
 	}
 	var zeroString = Math.pow(10, w - digitCount).toString().substr(1);
-	return n < 0 ? '-' + zeroString + an : zeroString + an;
+	return `${n < 0 ? '-' : ''}${zeroString}${an}`;
 }
 
 /**
@@ -174,7 +174,7 @@ export function toList(object, key, value) {
  *                                           - `function`: The function is called with the object as parameter. The return value of the function is used as value
  *                                           - `string`: The path is split at each dot (`.`) char. Note that if you call find in a loop, you might want to do the split yourself before the loop to avoid performance loss. See next case for details
  *                                           - `string[]`: Values of the array are used for deep search in the initial object. eg. `find({a:{b:2}}, 'a.b') === 2`. If any key is not found in the object, `undefined` is returned.
- * @return {*} the value
+ * @returns {*} the value
  */
 export function find(object, path) {
 	if (typeof path === 'undefined') {
@@ -226,7 +226,7 @@ export function sort(list, sorters) {
 		};
 	}
 	
-	list.sort(function (a, b) {
+	list.sort((a, b) => {
 		for (let j = 0; j < sorterLength; ++j) {
 			let va = a.values[j];
 			let vb = b.values[j];

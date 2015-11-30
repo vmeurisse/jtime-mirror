@@ -10,7 +10,7 @@ var frw = require('./frw');
  * @param {string} options.projectKey - Project key to use
  * @param {string} options.minDate - minimum date in the format `yyyy-mm-dd`
  * @param {string} options.maxDate - maximum date in the format `yyyy-mm-dd`
- * @return {Promise} A promise on an array of worklogs
+ * @returns {Promise} A promise on an array of worklogs
  */
 exports.worklog = function(options) {
 	return jira.issues({
@@ -26,26 +26,20 @@ exports.worklog = function(options) {
 };
 
 function getAllWorklogs(issues) {
-	return Promise.all(issues.map(function(issue) {
-		return jira.worklog(issue)
-		.then(function(worklog) {
-			return {
-				key: issue.key,
-				worklogs: worklog
-			};
-		});
-	})).then(function(issuesWithWork) {
+	let promises = issues.map(issue => jira.worklog(issue).then(worklog => ({
+		key: issue.key,
+		worklogs: worklog
+	})));
+	return Promise.all(promises).then(issuesWithWork => {
 		var worklogs = [];
-		issuesWithWork.forEach(function(issue) {
-			worklogs.push(issue.worklogs.map(function(work) {
-				return {
-					issue: issue.key,
-					user: work.author.name,
-					timeSpentSeconds: work.timeSpentSeconds,
-					start: work.started,
-					timeSpent: work.timeSpent
-				};
-			}));
+		issuesWithWork.forEach(issue => {
+			worklogs.push(issue.worklogs.map(work => ({
+				issue: issue.key,
+				user: work.author.name,
+				timeSpentSeconds: work.timeSpentSeconds,
+				start: work.started,
+				timeSpent: work.timeSpent
+			})));
 		});
 
 		return [].concat.apply([], worklogs);
@@ -56,9 +50,9 @@ function filterWorklog(minDate, maxDate, worklogs) {
 	// We drop the timezone of both limits and jira date to make sure
 	// that the date limits are using the server time zone
 	
-	var min = new Date(minDate + 'T00:00Z').getTime();
-	var max = new Date(maxDate + 'T23:59:59.999Z').getTime();
-	return worklogs.filter(function(worklog) {
+	var min = new Date(`${minDate}T00:00Z`).getTime();
+	var max = new Date(`${maxDate}T23:59:59.999Z`).getTime();
+	return worklogs.filter(worklog => {
 		var d = worklog.localStart.split(/\D/);
 		var date = Date.UTC(+d[0], --d[1], +d[2], +d[3], +d[4], +d[5], +d[6]);
 		return min <= date && date <= max;
@@ -67,13 +61,13 @@ function filterWorklog(minDate, maxDate, worklogs) {
 
 function resolveParents(worklogs) {
 	return resolveIssue(worklogs)
-	.then(resolveEpic);
+		.then(resolveEpic);
 }
 
 function resolveIssue(worklogs) {
-	return Promise.all(worklogs.map(function(worklog) {
+	return Promise.all(worklogs.map(worklog => {
 		jira.issue(worklog.issue)
-		.then(function(issue) {
+		.then(issue => {
 			var subtask = issue.fields.issuetype.subtask;
 			var epic = issue.fields.issuetype.name === 'Epic';
 			worklog.type = subtask ? 'Sub-task' : epic ? 'Epic' : 'Story';
@@ -82,9 +76,7 @@ function resolveIssue(worklogs) {
 			worklog.story = epic ? null : subtask ? issue.fields.parent.key : issue.key;
 			worklog.storyName = epic ? null : subtask ? issue.fields.parent.fields.summary : issue.fields.summary;
 		});
-	})).then(function() {
-		return worklogs;
-	});
+	})).then(() => worklogs);
 }
 
 function resolveEpic(worklogs) {
@@ -92,10 +84,10 @@ function resolveEpic(worklogs) {
 	var queries = [];
 	for (var storyKey in worklogMap) {
 		var q = jira.issue(storyKey)
-		.then(function(story) {
+		.then(story => {
 			var epicKey = story.fields.customfield_10006;
 			if (epicKey) {
-				worklogMap[story.key].forEach(function(log) {
+				worklogMap[story.key].forEach(log => {
 					log.epic = epicKey;
 				});
 			}
@@ -103,14 +95,14 @@ function resolveEpic(worklogs) {
 		queries.push(q);
 	}
 	return Promise.all(queries)
-	.then(function() {
+	.then(() => {
 		queries = [];
 		worklogMap = frw.groupBy(worklogs, 'epic');
 		for (var epicKey in worklogMap) {
 			if (epicKey !== 'undefined') {
 				var query = jira.issue(epicKey)
-				.then(function(epic) {
-					worklogMap[epic.key].forEach(function(log) {
+				.then(epic => {
+					worklogMap[epic.key].forEach(log => {
 						log.epicSummary = epic.fields.summary;
 						log.epicName = epic.fields.customfield_10007;
 						log.changeRequest = epic.fields.customfield_11100;
@@ -120,9 +112,7 @@ function resolveEpic(worklogs) {
 			}
 		}
 		return Promise.all(queries);
-	}).then(function() {
-		return worklogs;
-	});
+	}).then(() => worklogs);
 }
 
 function resolveUser(worklogs) {
@@ -133,7 +123,7 @@ function resolveUser(worklogs) {
 		.then(function(userName, user) {
 			var displayName = user && user.displayName || userName;
 			var tz = user && user.timeZone || 'UTC';
-			worklogMap[userName].forEach(function(log) {
+			worklogMap[userName].forEach(log => {
 				log.userDisplayName = displayName;
 				log.userAvatar = user.avatarUrls['32x32'];
 				log.localStart = moment(log.start).tz(tz).format();
@@ -141,15 +131,13 @@ function resolveUser(worklogs) {
 		}.bind(null, username));
 		queries.push(q);
 	}
-	return Promise.all(queries).then(function() {
-		return worklogs;
-	});
+	return Promise.all(queries).then(() => worklogs);
 }
 
 function extractCRs(worklogs) {
-	worklogs.forEach(function(work) {
+	worklogs.forEach(work => {
 		work.CR = work.changeRequest ||
-				  extractCRFromName(work.epicName) ||
+		          extractCRFromName(work.epicName) ||
 		          extractCRFromName(work.epicSummary) ||
 		          extractCRFromName(work.storyName) ||
 		          extractCRFromName(work.taskName) ||

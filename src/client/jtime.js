@@ -23,7 +23,7 @@ jtime.run = {
 jtime.showLoader = () => layout.showLoader();
 jtime.hideLoader = () => layout.hideLoader();
 
-function start () {
+function start() {
 	if (ie.check()) {
 		layout.show();
 		home.register('/');
@@ -34,7 +34,7 @@ function start () {
 	}
 }
 
-let ready = new Promise(function(fullfil) {
+let ready = new Promise(fullfil => {
 	if (document.readyState === 'complete') fullfil();
 	else document.addEventListener('DOMContentLoaded', fullfil);
 });
@@ -47,7 +47,7 @@ if (location.search.match(/livereload/)) {
 	(function() {
 		var l = document.createElement('script');
 		l.async = true;
-		l.src = 'http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1';
+		l.src = `http://${(location.host || 'localhost').split(':')[0]}:35729/livereload.js?snipver=1`;
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(l, s);
 	})();
