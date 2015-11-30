@@ -231,7 +231,7 @@ export function sort(list, sorters) {
 			let va = a.values[j];
 			let vb = b.values[j];
 			if (va > vb) return 1;
-			else if (va > vb) return -1;
+			else if (va < vb) return -1;
 		}
 		return 0;
 	});
