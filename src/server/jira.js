@@ -167,10 +167,15 @@ exports.worklog = function(issue) {
 				issue: key
 			}
 		}, cacheKey).then(data => {
-			longCache.set(cacheKey, {
-				logs: data.worklogs,
-				date: new Date()
-			});
+			if (data.worklogs) {
+				longCache.set(cacheKey, {
+					logs: data.worklogs,
+					date: new Date()
+				});
+			} else {
+				console.log(`Error retrieving worklogs for issue ${key}:`, data);
+				return Promise.reject(new Error(`Error retrieving worklogs for issue ${key}`));
+			}
 			return data.worklogs;
 		});
 	}
