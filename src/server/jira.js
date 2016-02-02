@@ -51,7 +51,7 @@ var mediumCache = lru({
 
 // users, worklogs, issues
 var longCache = lru({
-	max: 10000,
+	max: 50000,
 	maxAge: 7 * 24 * 60 * 60 * 1000 // 1w
 });
 
@@ -60,6 +60,25 @@ function storeIssue(issue) {
 		issue.date = new Date(issue.fields.updated);
 	}
 	longCache.set(`issue:${issue.key}`, issue);
+}
+
+function moveDown(args, key, allItems) {
+	var argsCopy = Object.assign({}, args); // node-rest-client is emptying the args object, so we copy it before
+	return jira.search(args, key)
+		.then(data => {
+			allItems = allItems || [];
+			allItems.push.apply(allItems, data.issues);
+			if (data.total >= 10000) {
+				return Promise.reject(new Error('Too many results - not even trying'));
+			} else if ((data.startAt + data.maxResults) < data.total) {
+				console.log(`Received ${data.maxResults} from ${data.startAt} out of ${data.total}. Grabbing next batch.`);
+				argsCopy.parameters.startAt += data.maxResults;
+				return moveDown(argsCopy, key, allItems);
+			} else {
+				console.log(`All results received: ${data.total}.`);
+				return allItems;
+			}
+		});
 }
 
 exports.projects = function() {
@@ -101,22 +120,19 @@ exports.issues = function(params) {
 	if (issues) {
 		return Promise.resolve(issues);
 	} else {
-		return jira.search({
+		return moveDown({
 			parameters: {
 				maxResults: 1000,
+				startAt: 0,
 				jql: jql,
 				fields: 'summary,updated,parent,issuetype,customfield_10006,customfield_10007'
 			}
-		}, cacheKey).then(data => {
-			if (data.maxResults <= data.total) {
-				return Promise.reject(new Error('Too many results returned'));
-			} else {
-				if (data.issues) {
-					data.issues.forEach(storeIssue);
-				}
-				shortCache.set(cacheKey, data.issues);
-				return data.issues;
+		}, cacheKey).then(issueList => {
+			if (issueList) {
+				issueList.forEach(storeIssue);
 			}
+			shortCache.set(cacheKey, issueList);
+			return issueList;
 		});
 	}
 };
