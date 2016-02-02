@@ -12,10 +12,10 @@ import spent from './pages/spent/spent';
 
 window.page = page;
 
-$ = document.getElementById.bind(document);
-$$ = document.querySelectorAll.bind(document);
+window.$ = document.getElementById.bind(document);
+window.$$ = document.querySelectorAll.bind(document);
 
-jtime = window.jtime || {};
+window.jtime = window.jtime || {};
 jtime.run = {
 	data: {}
 };
