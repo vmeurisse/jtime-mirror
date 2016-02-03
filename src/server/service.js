@@ -85,7 +85,7 @@ function resolveEpic(worklogs) {
 	for (var storyKey in worklogMap) {
 		var q = jira.issue(storyKey)
 		.then(story => {
-			var epicKey = story.fields.customfield_10006;
+			var epicKey = story.fields && story.fields.customfield_10006;
 			if (epicKey) {
 				worklogMap[story.key].forEach(log => {
 					log.epic = epicKey;
