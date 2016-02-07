@@ -116,19 +116,26 @@ function resolveEpic(worklogs) {
 }
 
 function resolveUser(worklogs) {
-	var worklogMap = frw.groupBy(worklogs, 'user');
-	var queries = [];
-	for (var username in worklogMap) {
-		var q = jira.user(username)
-		.then(function(userName, user) {
-			var displayName = user && user.displayName || userName;
-			var tz = user && user.timeZone || 'UTC';
-			worklogMap[userName].forEach(log => {
+	let worklogMap = frw.groupBy(worklogs, 'user');
+	let queries = [];
+	for (let username in worklogMap) {
+		let writeData = function writeData(user) {
+			// This function is called even in case of failure of the user resolution
+			// All properties used need to be protected and have some defaults
+			user = user || {};
+			let displayName = user.displayName || username;
+			let tz = user.timeZone || 'UTC';
+			let avatar = user.avatarUrls && user.avatarUrls['32x32'];
+			worklogMap[username].forEach(log => {
 				log.userDisplayName = displayName;
-				log.userAvatar = user.avatarUrls['32x32'];
+				log.userAvatar = avatar;
 				log.localStart = moment(log.start).tz(tz).format();
 			});
-		}.bind(null, username));
+		}
+		
+		let q = jira.user(username)
+		.then(writeData, writeData);
+		
 		queries.push(q);
 	}
 	return Promise.all(queries).then(() => worklogs);

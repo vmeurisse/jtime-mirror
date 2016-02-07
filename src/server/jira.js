@@ -181,19 +181,23 @@ exports.worklog = function(issue) {
 	}
 };
 
-exports.user = function(username) {
-	var cacheKey = `user:${username}`;
+exports.user = function(key) {
+	var cacheKey = `user:${key}`;
 	var user = longCache.get(cacheKey);
 	if (user) {
 		return Promise.resolve(user);
 	} else {
 		return jira.user({
 			parameters: {
-				username: username
+				key: key
 			}
 		}, cacheKey).then(data => {
-			longCache.set(cacheKey, data);
-			return data;
+			if (data.key) {
+				longCache.set(cacheKey, data);
+				return data;
+			} else {
+				throw new Error(`Error retrieving user ${key}: ${data.errorMessages}`);
+			}
 		});
 	}
 };
