@@ -1,4 +1,5 @@
-var spawn = require('child_process').spawn;
+'use strict';
+/*eslint-env node */
 
 var gulp = require('gulp');
 
@@ -22,7 +23,6 @@ var cssImport = require('postcss-import');
 var csswring = require('csswring');
 var doiuse = require('doiuse');
 
-var order = require('gulp-order');
 var cached = require('gulp-cached');
 var remember = require('gulp-remember');
 var progeny = require('gulp-progeny');
@@ -54,7 +54,7 @@ var watch = false;
 var mario = function() {
 	return gulpif(watch, plumber({
 		errorHandler: function(err) {
-			console.log('\x07' + err.toString());
+			console.log(err.toString());
 			notifier.notify({
 				'title': 'You broke the build!!!',
 				'message': err.message,
@@ -65,11 +65,11 @@ var mario = function() {
 };
 
 var reloadPipe = lazypipe().pipe(filter, ['*', '!*.map'])
-                           .pipe(function () { return gulpif(watch, livereload()); });
+                           .pipe(function() { return gulpif(watch, livereload()); });
 
-gulp.task('build', ['_scripts', '_style', '_markup', '_statics', '_templates', '_server', '_checkdeps']);
+gulp.task('build', ['_scripts', '_style', '_markup', '_statics', '_templates', '_server', '_checkdeps', '_checkgulpfile']);
 
-gulp.task('default', function () {
+gulp.task('default', function() {
 	mode = 'dev';
 	livereload.listen();
 	runSequence('build', '_watch', function() {
@@ -77,12 +77,12 @@ gulp.task('default', function () {
 	});
 });
 
-gulp.task('_watch', function () {
+gulp.task('_watch', function() {
 	watch = true;
-	for (var type of ['scripts', 'style', 'markup', 'statics', 'templates', 'server']) {
+	for (let type of ['scripts', 'style', 'markup', 'statics', 'templates', 'server']) {
 		gulp.src('I_DONT_EXIST')
 			.pipe(gulpWatch(globs[type]))
-			.pipe(filter(function(type, file) {
+			.pipe(filter(function(file) {
 				console.log('I changed', file.path, file.event);
 				if (file.event === 'unlink') { // if a file is deleted, forget about it
 					if (cached.caches[type]) {
@@ -91,11 +91,11 @@ gulp.task('_watch', function () {
 					}
 				}
 				return true;
-			}.bind(null, type)))
-			.pipe(es.map(function(type) {
+			}))
+			.pipe(es.map(function() {
 				console.log('Starting', type);
-				runSequence('_' + type);
-			}.bind(null, type)));
+				runSequence(`_${type}`);
+			}));
 	}
 
 	nodemon({
@@ -131,16 +131,13 @@ function getSourceModules() {
 		.pipe(eslint())
 		.pipe(eslint.format())
 		.pipe(eslint.failAfterError())
-		.pipe(babel({
-			presets: ['es2015'],
-			plugins: ['transform-es2015-modules-amd']
-		}))
+		.pipe(babel())
 		.pipe(remember('scripts'));
 }
 
 function getAmdDependencies(amdconf) {
 	return gulp.src([
-			amdconf.paths.page + '.js'
+			`${amdconf.paths.page}.js`
 		], {base: '.'})
 		.pipe(sourcemaps.init())
 }
@@ -243,12 +240,18 @@ gulp.task('_templates', function() {
 	           .pipe(reloadPipe());
 });
 
+gulp.task('_checkgulpfile', function() {
+	return gulp.src('gulpfile.js')
+		.pipe(eslint())
+		.pipe(eslint.format())
+		.pipe(eslint.failAfterError());
+});
+
 gulp.task('_checkdeps', function() {
 	return new Promise(function(fulfill, reject) {
 		var depcheck = require('depcheck');
 		var options = {
-			'ignoreDirs': ['build', 'client'],
-			'ignoreMatches': ['babel-plugin-transform-es2015-modules-amd', 'babel-preset-es2015']
+			ignoreDirs: ['build', 'client']
 		};
 		depcheck(__dirname, options, function(unused) {
 			if (Object.keys(unused.invalidFiles).length) {
