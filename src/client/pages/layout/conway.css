@@ -1,46 +1,46 @@
 :root {
-	--conway-speed: 1s;
+  --conway-speed: 1s;
 }
 
 #jtime-loader {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-	background-color: rgba(200, 200, 200, 0.6);
-	font-size: 30px;
+  background-color: rgba(200, 200, 200, 0.6);
+  font-size: 30px;
 
-	.flex {
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-direction: column;
-	}
+  .flex {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 }
 
 .conway {
-	width: 44px;
-	height: 44px;
-	font-size: 0;
-	position: relative;
-	margin-bottom: 20px;
+  width: 44px;
+  height: 44px;
+  font-size: 0;
+  position: relative;
+  margin-bottom: 20px;
 
-	animation-timing-function: linear;
-	animation-duration: var(--conway-speed);
-	animation-iteration-count: infinite;
-	animation-name: conway;
+  animation-timing-function: linear;
+  animation-duration: var(--conway-speed);
+  animation-iteration-count: infinite;
+  animation-name: conway;
 }
 .conway-cell {
-	display: inline-block;
-	width: 10px;
-	height: 10px;
-	background-color: #000000;
-	opacity: 0;
-	margin: 0 1px 1px 0;
-	border-radius: 5px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #000000;
+  opacity: 0;
+  margin: 0 1px 1px 0;
+  border-radius: 5px;
 }
 
 .conway01,
@@ -52,9 +52,9 @@
 .conway23,
 .conway31,
 .conway32 {
-	animation-timing-function: step-end;
-	animation-duration: var(--conway-speed);
-	animation-iteration-count: infinite;
+  animation-timing-function: step-end;
+  animation-duration: var(--conway-speed);
+  animation-iteration-count: infinite;
 }
 
 .conway01 {animation-name: conway-bwww;}
@@ -68,85 +68,85 @@
 .conway31 {animation-name: conway-wbbb;}
 .conway32 {animation-name: conway-wwbb;}
 @keyframes conway {
-	0% {
-		transform: translate(11px, 11px);
-	}
-	100% {
-		transform: translate(0);
-	}
+  0% {
+    transform: translate(11px, 11px);
+  }
+  100% {
+    transform: translate(0);
+  }
 }
 @keyframes conway-bwww {
-	0% {
-		opacity: 0.9; /* Don't use 1 to make sure that the element is not fully opaque. Otherwise, elements behind might get unpainted and trigger a repaint on animation */
-	}
-	25% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0.9; /* Don't use 1 to make sure that the element is not fully opaque. Otherwise, elements behind might get unpainted and trigger a repaint on animation */
+  }
+  25% {
+    opacity: 0;
+  }
 }
 
 @keyframes conway-wbww {
-	0% {
-		opacity: 0;
-	}
-	25% {
-		opacity: 0.9;
-	}
-	50% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 @keyframes conway-wwwb {
-	0% {
-		opacity: 0;
-	}
-	75% {
-		opacity: 0.9;
-	}
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.9;
+  }
 }
 @keyframes conway-bbbw {
-	0% {
-		opacity: 0.9;
-	}
-	75% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0.9;
+  }
+  75% {
+    opacity: 0;
+  }
 }
 @keyframes conway-bwbw {
-	0% {
-		opacity: 0.9;
-	}
-	25% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 0.9;
-	}
-	75% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0.9;
+  }
+  25% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  75% {
+    opacity: 0;
+  }
 }
 @keyframes conway-bbww {
-	0% {
-		opacity: 0.9;
-	}
-	50% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 @keyframes conway-wbbb {
-	0% {
-		opacity: 0;
-	}
-	25% {
-		opacity: 1;
-	}
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
 }
 @keyframes conway-wwbb {
-	0% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 0.9;
-	}
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.9;
+  }
 }

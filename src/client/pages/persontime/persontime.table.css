@@ -12,67 +12,67 @@
 .color9 {background-color: var(--color9);}
 
 .jtime-persontime-table-container {
-	margin: 1em 1em 0;
+  margin: 1em 1em 0;
 }
 
 table.jtime-persontime-table {
-	border-spacing: 0;
-	width: 100%;
-	
-	td {
-		width: 17%;
-		height: 110px;
-		padding: 2px;
-		
-		vertical-align: top;
-		
-		h4 {
-			background-color: var(--light-grey);
-			color: #333333;
-			padding: 5px;
-			margin: 0;
-			font-size: 16px;
-			line-height: 19px;
-			
-			em.totalDay {
-				background: url('img/tick.png') center right no-repeat;
-				color: transparent;
-				font-weight: normal;
-				font-style: normal;
-				font-size: 60%;
-				float: right;
-			}
-		}
-		.item {
-			color: white;
-			display: block;
-			border-radius: 5px;
-			font-weight: bold;
-			margin: 5px 0 1px;
-			text-align: center;
-			cursor: pointer;
-		}
-		.item:hover {
-			opacity: 0.8;
-		}
-		.item.dimmed {
-			background-color: var(--light-grey);
-		}
-	}
-	td.invalid h4 {
-		background-color: var(--grey);
-		color: white;
-		
-		em.totalDay {
-			background-image: none;
-			color: #333333;
-		}
-	}
-	td:nth-last-child(-n+2) { /* less data for weekend days - assumes Sat/Sun are at the end */
-		width: 7%;
-		
-		em.totalDay {
-			display: none;
-		}
-	}
+  border-spacing: 0;
+  width: 100%;
+
+  td {
+    width: 17%;
+    height: 110px;
+    padding: 2px;
+
+    vertical-align: top;
+
+    h4 {
+      background-color: var(--light-grey);
+      color: #333333;
+      padding: 5px;
+      margin: 0;
+      font-size: 16px;
+      line-height: 19px;
+
+      em.totalDay {
+        background: url('img/tick.png') center right no-repeat;
+        color: transparent;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 60%;
+        float: right;
+      }
+    }
+    .item {
+      color: white;
+      display: block;
+      border-radius: 5px;
+      font-weight: bold;
+      margin: 5px 0 1px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .item:hover {
+      opacity: 0.8;
+    }
+    .item.dimmed {
+      background-color: var(--light-grey);
+    }
+  }
+  td.invalid h4 {
+    background-color: var(--grey);
+    color: white;
+
+    em.totalDay {
+      background-image: none;
+      color: #333333;
+    }
+  }
+  td:nth-last-child(-n+2) { /* less data for weekend days - assumes Sat/Sun are at the end */
+    width: 7%;
+
+    em.totalDay {
+      display: none;
+    }
+  }
 }

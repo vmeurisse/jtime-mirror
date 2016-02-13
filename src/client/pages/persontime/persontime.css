@@ -1,63 +1,63 @@
 @import '../../variables.css';
 
 .header {
-	text-align: center;
-	
-	h2 {
-		display: inline-block;
-		margin: 1em 0;
-		color: #333;
-	}
-	a {
-		color: var(--grey);
-		font-weight: bolder;
-		font-size: 25px;
-		text-decoration: none;
-		padding: 0 1em;
-		
-		&:focus,
-		&:hover {
-			color: var(--dark-grey);
-			outline: 0;
-		}
-	}
+  text-align: center;
+
+  h2 {
+    display: inline-block;
+    margin: 1em 0;
+    color: #333;
+  }
+  a {
+    color: var(--grey);
+    font-weight: bolder;
+    font-size: 25px;
+    text-decoration: none;
+    padding: 0 1em;
+
+    &:focus,
+    &:hover {
+      color: var(--dark-grey);
+      outline: 0;
+    }
+  }
 }
 
 .jtime-persontime-controls {
-	margin: 1em;
-	float: left;
-	
-	a.button {
-		display: block;
-		float: left;
-		clear: left;
-		margin: 0px 5px 5px 0px;
-	}
+  margin: 1em;
+  float: left;
+
+  a.button {
+    display: block;
+    float: left;
+    clear: left;
+    margin: 0px 5px 5px 0px;
+  }
 }
 
 .jtime-persontime-container {
-	display: flex;
-	flex-wrap: wrap;
-	clear: left;
+  display: flex;
+  flex-wrap: wrap;
+  clear: left;
 }
 .jtime-persontime-subcontainer {
-	min-width: 320px;
-	max-width: 1200px;
+  min-width: 320px;
+  max-width: 1200px;
 }
 .jtime-persontime-table-container {
-	flex-grow: 100;
-	width: 600px;
+  flex-grow: 100;
+  width: 600px;
 }
 .jtime-persontime-stats-container {
-	flex-grow: 1;
-	width: 350px;
+  flex-grow: 1;
+  width: 350px;
 }
 
 .jtime-persontime-controls .avatar {
-	width: 32px;
-	height: 32px;
+  width: 32px;
+  height: 32px;
 
-	vertical-align: middle;
+  vertical-align: middle;
 
-	border-radius: 3px;
+  border-radius: 3px;
 }

@@ -1,45 +1,45 @@
 <div class="jtime-persontime-stats-block">
-	<h3>Summary</h3>
-	<dl>
-		<dt>Days with report</dt>
-		<dd>{{days}}</dd>
-		<dt>Average report time/day</dt>
-		<dd>{{average}}</dd>
-		<dt>Total</dt>
-		<dd>{{total}}</dd>
-	</dl>
+  <h3>Summary</h3>
+  <dl>
+    <dt>Days with report</dt>
+    <dd>{{days}}</dd>
+    <dt>Average report time/day</dt>
+    <dd>{{average}}</dd>
+    <dt>Total</dt>
+    <dd>{{total}}</dd>
+  </dl>
 </div>
 
 <div class="jtime-persontime-stats-block">
-	<h3>Details ({{crs.length}})</h3>
-	<dl class="colored">
-	{{#each crs}}
-		<dt class="bcolor{{color}}" data-epic="{{epic}}">{{epicName}}</dt>
-		<dd data-epic="{{epic}}">{{timeDisplay}}</dd>
-	{{/each}}
-	</dl>
+  <h3>Details ({{crs.length}})</h3>
+  <dl class="colored">
+  {{#each crs}}
+    <dt class="bcolor{{color}}" data-epic="{{epic}}">{{epicName}}</dt>
+    <dd data-epic="{{epic}}">{{timeDisplay}}</dd>
+  {{/each}}
+  </dl>
 </div>
 
 <div class="jtime-persontime-stats-block">
-	<h3>Selected</h3>
-	<dl>
-	{{#if selected}}
-		<dt>Spent:</dt>
-		<dd>{{selected.timeSpent}} ({{selected.timeSpentRatio}})</dd>
-		{{#if selected.epic}}
-			<dt>Epic:</dt>
-			<dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.epic}}">{{selected.epic}}</a> {{selected.epicSummary}}</dd>
-		{{/if}}
-		{{#if selected.storyName}}
-			<dt>Story:</dt>
-			<dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.story}}">{{selected.story}}</a> {{selected.storyName}}</dd>
-		{{/if}}
-		{{#if selected.task}}
-			<dt>Task:</dt>
-			<dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.task}}">{{selected.task}}</a> {{selected.taskName}}</dd>
-		{{/if}}
-	{{else}}
-		<dt><em>None - Click on a task to see its details</em></dt>
-	{{/if}}
-	</dl>
+  <h3>Selected</h3>
+  <dl>
+  {{#if selected}}
+    <dt>Spent:</dt>
+    <dd>{{selected.timeSpent}} ({{selected.timeSpentRatio}})</dd>
+    {{#if selected.epic}}
+      <dt>Epic:</dt>
+      <dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.epic}}">{{selected.epic}}</a> {{selected.epicSummary}}</dd>
+    {{/if}}
+    {{#if selected.storyName}}
+      <dt>Story:</dt>
+      <dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.story}}">{{selected.story}}</a> {{selected.storyName}}</dd>
+    {{/if}}
+    {{#if selected.task}}
+      <dt>Task:</dt>
+      <dd><a target="_blank" href="{{jiraUrl}}browse/{{selected.task}}">{{selected.task}}</a> {{selected.taskName}}</dd>
+    {{/if}}
+  {{else}}
+    <dt><em>None - Click on a task to see its details</em></dt>
+  {{/if}}
+  </dl>
 </div>

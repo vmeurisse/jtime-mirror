@@ -1,46 +1,46 @@
 @import 'variables.css';
 
 html {
-	font-family: sans-serif;
+  font-family: sans-serif;
 }
 html,
 body {
-	margin: 0;
-	padding: 0;
-	height: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 body {
-	background-color: #f7f7f7;
-	padding-top: var(--headerHeight);
-	box-sizing: border-box;
+  background-color: #f7f7f7;
+  padding-top: var(--headerHeight);
+  box-sizing: border-box;
 }
 select {
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	appearance: none;
-	background: url(data:image/png;base64,R0lGODlhDQAEAIAAAAAAAP8A/yH5BAEHAAEALAAAAAANAAQAAAILhA+hG5jMDpxvhgIAOw==);
-	background-repeat: no-repeat;
-	background-position: right center;
-	padding-right: 20px;
-	border: 1px solid black;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: url(data:image/png;base64,R0lGODlhDQAEAIAAAAAAAP8A/yH5BAEHAAEALAAAAAANAAQAAAILhA+hG5jMDpxvhgIAOw==);
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 20px;
+  border: 1px solid black;
 }
 select:-moz-focusring {
-	color: transparent;
-	text-shadow: 0 0 0 #000;
+  color: transparent;
+  text-shadow: 0 0 0 #000;
 }
 
 a.button {
-	text-decoration: none;
-	border: 1px solid var(--darker-grey);
-	padding: 6px 12px;
-	border-radius: 5px;
-	display: inline-block;
-	
-	color: var(--darker-grey);
-	font-weight: bold;
-	
-	&:focus {
-		outline: none;
-		border-color: var(--dark-grey);
-	}
+  text-decoration: none;
+  border: 1px solid var(--darker-grey);
+  padding: 6px 12px;
+  border-radius: 5px;
+  display: inline-block;
+
+  color: var(--darker-grey);
+  font-weight: bold;
+
+  &:focus {
+    outline: none;
+    border-color: var(--dark-grey);
+  }
 }
