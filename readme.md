@@ -6,13 +6,11 @@ Your time tracking companion for Jira.
 Installation
 ------------
 
-1. To install and run this project, you will need `bower` and `gulp` installed. You can install them using  
-    `npm install -g bower`  
-    `npm install -g gulp`
+1. To install and run this project, you will need to have `gulp` installed. You can install it using  
+    `npm install -g gulp-cli`
 
 2. Install dependencies  
-    `npm install`  
-    `bower install`
+    `npm install`
 
 3. copy file `config.sample.js` to `config.js` and edit values
 4. 
