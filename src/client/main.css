@@ -3,44 +3,50 @@
 html {
   font-family: sans-serif;
 }
+
 html,
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
 }
+
 body {
-  background-color: #f7f7f7;
-  padding-top: var(--headerHeight);
   box-sizing: border-box;
+  padding-top: var(--headerHeight);
+
+  background-color: #f7f7f7;
 }
+
 select {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  background: url(data:image/png;base64,R0lGODlhDQAEAIAAAAAAAP8A/yH5BAEHAAEALAAAAAANAAQAAAILhA+hG5jMDpxvhgIAOw==);
-  background-repeat: no-repeat;
-  background-position: right center;
-  padding-right: 20px;
   border: 1px solid black;
+  padding-right: 20px;
+
+  appearance: none;
+  background: url('data:image/png;base64,R0lGODlhDQAEAIAAAAAAAP8A/yH5BAEHAAEALAAAAAANAAQAAAILhA+hG5jMDpxvhgIAOw==');
+  background-position: right center;
+  background-repeat: no-repeat;
 }
+
 select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
 }
 
 a.button {
-  text-decoration: none;
   border: 1px solid var(--darker-grey);
-  padding: 6px 12px;
-  border-radius: 5px;
   display: inline-block;
+  padding: 6px 12px;
 
   color: var(--darker-grey);
   font-weight: bold;
+  text-decoration: none;
+
+  border-radius: 5px;
 
   &:focus {
-    outline: none;
     border-color: var(--dark-grey);
+
+    outline: none;
   }
 }

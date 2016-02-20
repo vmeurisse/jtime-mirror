@@ -18,12 +18,13 @@ const eslint =      require('gulp-eslint');
 // post-css & plugins
 const postcss =      require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
-const calc =         require('postcss-calc');
-const nested =       require('postcss-nested');
-const customProp =   require('postcss-custom-properties');
-const cssImport =    require('postcss-import');
 const csswring =     require('csswring');
 const doiuse =       require('doiuse');
+const calc =         require('postcss-calc');
+const customProp =   require('postcss-custom-properties');
+const cssImport =    require('postcss-import');
+const nested =       require('postcss-nested');
+const stylelint =    require('stylelint');
 
 // gulp wiring plugins
 const cached =      require('gulp-cached');
@@ -182,6 +183,7 @@ gulp.task('_style', () => {
           'last 2 Chrome versions'
         ],
         processors = [
+          stylelint(),
           nested(),
           cssImport(),
           customProp(),

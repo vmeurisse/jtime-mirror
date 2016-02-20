@@ -1,15 +1,15 @@
 @import '../../variables.css';
 
-.color0 {background-color: var(--color0);}
-.color1 {background-color: var(--color1);}
-.color2 {background-color: var(--color2);}
-.color3 {background-color: var(--color3);}
-.color4 {background-color: var(--color4);}
-.color5 {background-color: var(--color5);}
-.color6 {background-color: var(--color6);}
-.color7 {background-color: var(--color7);}
-.color8 {background-color: var(--color8);}
-.color9 {background-color: var(--color9);}
+.color0 { background-color: var(--color0); }
+.color1 { background-color: var(--color1); }
+.color2 { background-color: var(--color2); }
+.color3 { background-color: var(--color3); }
+.color4 { background-color: var(--color4); }
+.color5 { background-color: var(--color5); }
+.color6 { background-color: var(--color6); }
+.color7 { background-color: var(--color7); }
+.color8 { background-color: var(--color8); }
+.color9 { background-color: var(--color9); }
 
 .jtime-persontime-table-container {
   margin: 1em 1em 0;
@@ -20,54 +20,66 @@ table.jtime-persontime-table {
   width: 100%;
 
   td {
-    width: 17%;
     height: 110px;
     padding: 2px;
+    width: 17%;
 
     vertical-align: top;
 
     h4 {
-      background-color: var(--light-grey);
-      color: #333333;
-      padding: 5px;
       margin: 0;
+      padding: 5px;
+
+      color: #333;
       font-size: 16px;
       line-height: 19px;
 
+      background-color: var(--light-grey);
+
       em.totalDay {
-        background: url('img/tick.png') center right no-repeat;
-        color: transparent;
-        font-weight: normal;
-        font-style: normal;
-        font-size: 60%;
         float: right;
+
+        font-size: 60%;
+        font-style: normal;
+        font-weight: normal;
+
+        background: url('img/tick.png') center right no-repeat;
       }
     }
+
     .item {
-      color: white;
       display: block;
-      border-radius: 5px;
-      font-weight: bold;
       margin: 5px 0 1px;
+
+      color: white;
+      font-weight: bold;
       text-align: center;
+
+      border-radius: 5px;
       cursor: pointer;
     }
+
     .item:hover {
       opacity: 0.8;
     }
+
     .item.dimmed {
       background-color: var(--light-grey);
     }
   }
+
   td.invalid h4 {
-    background-color: var(--grey);
     color: white;
 
+    background-color: var(--grey);
+
     em.totalDay {
+      color: #333;
+
       background-image: none;
-      color: #333333;
     }
   }
+
   td:nth-last-child(-n+2) { /* less data for weekend days - assumes Sat/Sun are at the end */
     width: 7%;
 

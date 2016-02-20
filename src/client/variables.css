@@ -1,26 +1,26 @@
 :root {
-  --lighter-grey: #F7F7F7;
-  --light-grey: #EEEEEE;
-  --grey: #CCCCCC;
-  --dark-grey: #AAAAAA;
-  --darker-grey: #333333;
+  --lighter-grey: #f7f7f7;
+  --light-grey: #eee;
+  --grey: #ccc;
+  --dark-grey: #aaa;
+  --darker-grey: #333;
 
   --themeDark: #205081;
-  --themeMedium: #438DDA;
+  --themeMedium: #438dda;
 
   --headerBackground: #205081;
   --headerColor: white;
 
-  --color0: #5DA5DA; /* blue */
-  --color1: #FAA43A; /* orange */
-  --color2: #60BD68; /* green */
-  --color3: #F17CB0; /* pink */
-  --color4: #B2912F; /* brown */
-  --color5: #B276B2; /* purple */
-  --color6: #DECF3F; /* yellow */
-  --color7: #F15854; /* red */
-  --color8: #4D4D4D; /* gray */
-  --color9: #CACACA; /* light-gray */
+  --color0: #5da5da; /* blue */
+  --color1: #faa43a; /* orange */
+  --color2: #60bd68; /* green */
+  --color3: #f17cb0; /* pink */
+  --color4: #b2912f; /* brown */
+  --color5: #b276b2; /* purple */
+  --color6: #decf3f; /* yellow */
+  --color7: #f15854; /* red */
+  --color8: #4d4d4d; /* gray */
+  --color9: #cacaca; /* light-gray */
 
   --headerHeight: 45px;
 }

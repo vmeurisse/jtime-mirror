@@ -1,49 +1,51 @@
 @import '../../variables.css';
 
 .jtime-persontime-stats-container {
+  align-content: flex-start;
   display: flex;
   flex-wrap: wrap;
-  align-content: flex-start;
-
-  box-shadow: 0 2px 6px 3px rgba(0,0,0,0.3);
-  background-color: white;
-
   margin: 1em 0 0;
   padding: 1em;
+
+  background-color: white;
+  box-shadow: 0 2px 6px 3px rgba(0, 0, 0, 0.3);
 
   h3 {
     margin: 0 0 1em;
   }
 
   dl.colored dt {
-    border-left-width: 6px;
-    border-left-style: solid;
-    padding: 1px 0px 1px 4px;
-    float: left;
     clear: left;
+    float: left;
+
+    border-left-style: solid;
+    border-left-width: 6px;
+    padding: 1px 0 1px 4px;
   }
 
   dl.colored dd {
+    margin: 0;
+    padding: 1px 7px 2px 0;
+
     text-align: right;
-    padding: 1px 7px 2px 0px;
-    border-radius: 0px 6px 6px 0px;
-    margin: 0px;
+
+    border-radius: 0 6px 6px 0;
   }
 
   dl.colored dd.highlighted {
     background-color: var(--light-grey);
   }
 
-  .bcolor0 {border-color: var(--color0);}
-  .bcolor1 {border-color: var(--color1);}
-  .bcolor2 {border-color: var(--color2);}
-  .bcolor3 {border-color: var(--color3);}
-  .bcolor4 {border-color: var(--color4);}
-  .bcolor5 {border-color: var(--color5);}
-  .bcolor6 {border-color: var(--color6);}
-  .bcolor7 {border-color: var(--color7);}
-  .bcolor8 {border-color: var(--color8);}
-  .bcolor9 {border-color: var(--color9);}
+  .bcolor0 { border-color: var(--color0); }
+  .bcolor1 { border-color: var(--color1); }
+  .bcolor2 { border-color: var(--color2); }
+  .bcolor3 { border-color: var(--color3); }
+  .bcolor4 { border-color: var(--color4); }
+  .bcolor5 { border-color: var(--color5); }
+  .bcolor6 { border-color: var(--color6); }
+  .bcolor7 { border-color: var(--color7); }
+  .bcolor8 { border-color: var(--color8); }
+  .bcolor9 { border-color: var(--color9); }
 
 }
 

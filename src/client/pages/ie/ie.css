@@ -1,15 +1,15 @@
 .ie {
-  width: 400px;
-  margin: auto;
-
   height: 100%;
+  margin: auto;
+  width: 400px;
 
   .center {
     position: relative;
-    width: 400px;
-    height: 400px;
     top: 50%;
+
+    height: 400px;
     margin-top: -200px;
+    width: 400px;
   }
 
   img {
@@ -18,16 +18,19 @@
   }
 
   .not {
-    background-color: tomato;
-    color: white;
-
-    font-weight: bold;
-    font-size: 30px;
-
-    padding: 5px 35px;
     display: inline-block;
+    padding: 5px 35px;
 
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+
+    background-color: tomato;
+
+    /* stylelint-disable property-no-vendor-prefix */
+    /* support IE9 on the don't support IE screen */
     -ms-transform: translateX(50px) translateY(-124px) rotate(-13deg);
+    /* stylelint-enable */
     transform: translateX(50px) translateY(-124px) rotate(-13deg);
   }
 }

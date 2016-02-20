@@ -6,58 +6,67 @@
   h2 {
     display: inline-block;
     margin: 1em 0;
+
     color: #333;
   }
+
   a {
-    color: var(--grey);
-    font-weight: bolder;
-    font-size: 25px;
-    text-decoration: none;
     padding: 0 1em;
+
+    color: var(--grey);
+    font-size: 25px;
+    font-weight: bolder;
+    text-decoration: none;
 
     &:focus,
     &:hover {
       color: var(--dark-grey);
+
       outline: 0;
     }
   }
 }
 
 .jtime-persontime-controls {
-  margin: 1em;
   float: left;
 
+  margin: 1em;
+
   a.button {
-    display: block;
-    float: left;
     clear: left;
-    margin: 0px 5px 5px 0px;
+    float: left;
+
+    display: block;
+    margin: 0 5px 5px 0;
   }
 }
 
 .jtime-persontime-container {
+  clear: left;
+
   display: flex;
   flex-wrap: wrap;
-  clear: left;
 }
+
 .jtime-persontime-subcontainer {
   min-width: 320px;
   max-width: 1200px;
 }
+
 .jtime-persontime-table-container {
   flex-grow: 100;
   width: 600px;
 }
+
 .jtime-persontime-stats-container {
   flex-grow: 1;
   width: 350px;
 }
 
 .jtime-persontime-controls .avatar {
-  width: 32px;
   height: 32px;
-
-  vertical-align: middle;
+  width: 32px;
 
   border-radius: 3px;
+  vertical-align: middle;
 }
