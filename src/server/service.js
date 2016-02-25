@@ -10,21 +10,26 @@ const frw = require('./frw');
  * @param {string} options.projectKey - Project key to use
  * @param {string} options.minDate - minimum date in the format `yyyy-mm-dd`
  * @param {string} options.maxDate - maximum date in the format `yyyy-mm-dd`
- * @returns {Promise} A promise on an array of worklogs
+ * @returns {Promise<Array<jira~Worklog>>} A promise on an array of worklogs
  */
 exports.worklog = function(options) {
   return jira.issues({
     projectKey: options.projectKey,
-    minDate: options.minDate,
-    maxDate: options.maxDate,
-    loggedWork: true
+    minLogDate: options.minDate,
+    maxLogDate: options.maxDate
   }).then(getAllWorklogs)
-  .then(resolveUser)
-  .then(filterWorklog.bind(null, options.minDate, options.maxDate))
-  .then(resolveParents)
-  .then(extractCRs);
+    .then(resolveUser)
+    .then(filterWorklog.bind(null, options.minDate, options.maxDate))
+    .then(resolveParents)
+    .then(extractCRs);
 };
 
+/**
+ * Retrieve the worklog for a list of issues
+ *
+ * @param {Array<jira~Issue>} issues - the issues to get worklog for
+ * @returns {Promise.<Array<jira~Worklog>>} the worklogs
+ */
 function getAllWorklogs(issues) {
   let promises = issues.map(issue => jira.worklog(issue).then(worklog => ({
     key: issue.key,

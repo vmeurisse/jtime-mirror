@@ -155,7 +155,8 @@
     "use-isnan": 2,
     "valid-jsdoc": [2, {
       "prefer": {
-        "return": "returns"
+        "return": "returns",
+        "constructor": "class" // webstorm doesn't seams to understand @constructor
       },
       "requireReturn": false
     }],

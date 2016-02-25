@@ -1,8 +1,8 @@
 'use strict';
 
 const Client = require('node-rest-client').Client;
-const lru = require('lru-cache');
 
+const cache = require('./cache');
 const config = require('../../config');
 
 const rest = new Client({
@@ -40,32 +40,15 @@ const validDate = function(date) {
   return typeof date === 'string' && /^\d\d\d\d-\d\d-\d\d$/i.test(date);
 };
 
-// issue-list
-const shortCache = lru({
-  max: 1000,
-  maxAge: 5 * 60 * 1000 // 5min
-});
-
-// projects
-const mediumCache = lru({
-  max: 10000,
-  maxAge: 60 * 60 * 1000 // 1d
-});
-
-// users, worklogs, issues
-const longCache = lru({
-  max: 50000,
-  maxAge: 7 * 24 * 60 * 60 * 1000 // 1w
-});
-
-function storeIssue(issue) {
-  if (issue.fields && issue.fields.updated) {
-    issue.date = new Date(issue.fields.updated);
-  }
-  longCache.set(`issue:${issue.key}`, issue);
-}
-
-function moveDown(args, key, allItems) {
+/**
+ * Search for issues. This function will handle movedowns if necessary.
+ *
+ * @param {Object} args - arguments to search with
+ * @param {string} key - key to use in logs
+ * @param {Array<jira~Issue>} [allItems] - If provided, the retrieved issues will be appended to this array.
+ * @returns {Promise.<Array<jira~Issue>>} the list of issues
+ */
+function search(args, key, allItems) {
   const argsCopy = Object.assign({}, args); // node-rest-client is emptying the args object, so we copy it before
   return jira.search(args, key)
     .then(data => {
@@ -76,7 +59,7 @@ function moveDown(args, key, allItems) {
       } else if ((data.startAt + data.maxResults) < data.total) {
         console.log(`Received ${data.maxResults} from ${data.startAt} out of ${data.total}. Grabbing next batch.`);
         argsCopy.parameters.startAt += data.maxResults;
-        return moveDown(argsCopy, key, allItems);
+        return search(argsCopy, key, allItems);
       } else {
         console.log(`All results received: ${data.total}.`);
         return allItems;
@@ -84,65 +67,79 @@ function moveDown(args, key, allItems) {
     });
 }
 
+/**
+ * Get all projects
+ *
+ * @returns {Promise<Array<jira~Project>>} The list of projects
+ */
 exports.projects = function() {
-  var projects = mediumCache.get('projects');
+  var projects = cache.getProjects();
   if (projects) {
     return Promise.resolve(projects);
   } else {
     return jira.projects().then(data => {
-      mediumCache.set('projects', data);
+      cache.storeProjects(data);
       return data;
     });
   }
 };
 
+/**
+ * Get a list of issues from jira
+ *
+ * @param {Object} params -
+ * @param {string} params.projectKey - Key of the project ot search issues on
+ * @param {string} [params.minLogDate] - Retrieve only issues with work logged on or after the provided date
+ * @param {string} [params.maxLogDate] - Retrieve only issues with work logged on or before the provided date
+ * @returns {Promise<Array<jira~Issue>>} An array of issues
+ */
 exports.issues = function(params) {
-  let jql = [];
+  const jqlParts = [];
   if (!validProject(params.projectKey)) {
     return Promise.reject(new Error('invalid project key'));
   }
-  jql.push(`project = ${params.projectKey}`);
+  jqlParts.push(`project = ${params.projectKey}`);
 
-  if (params.loggedWork) {
-    jql.push('timespent > 0');
-  }
+  jqlParts.push('timespent > 0');
 
-  if (params.minDate || params.maxDate) {
-    if (!validDate(params.minDate) || !validDate(params.maxDate)) {
+  if (params.minLogDate || params.maxLogDate) {
+    if (!validDate(params.minLogDate) || !validDate(params.maxLogDate)) {
       return Promise.reject(new Error('invalid date query'));
     }
-    jql.push(`created <= "${params.maxDate} 23:59" AND updated >= "${params.minDate}"`);
-  } else {
-    jql.push('sprint in openSprints()');
+    jqlParts.push(`created <= "${params.maxLogDate} 23:59" AND updated >= "${params.minLogDate}"`);
   }
 
-  jql = jql.join(' AND ');
+  const jql = jqlParts.join(' AND ');
 
-  let cacheKey = `issues:${jql}`;
-  let issues = shortCache.get(cacheKey);
+  let issues = cache.getIssues(jql);
   if (issues) {
     return Promise.resolve(issues);
   } else {
-    return moveDown({
+    return search({
       parameters: {
-        maxResults: 1000,
+        maxResults: 1000, // maximum supported by jira
         startAt: 0,
         jql,
         fields: 'summary,updated,parent,issuetype,customfield_10006,customfield_10007'
       }
-    }, cacheKey).then(issueList => {
+    }, `retrieve issues for: ${jql}}`).then(issueList => {
       if (issueList) {
-        issueList.forEach(storeIssue);
+        issueList.forEach(cache.storeIssue);
       }
-      shortCache.set(cacheKey, issueList);
+      cache.storeIssues(jql, issueList);
       return issueList;
     });
   }
 };
 
+/**
+ * Retrieve an issue
+ *
+ * @param {string} key - the key of the issue
+ * @returns {Promise<jira~Issue>} the issue
+ */
 exports.issue = function(key) {
-  let cacheKey = `issue:${key}`;
-  let issue = longCache.get(cacheKey);
+  let issue = cache.getIssue(key);
   if (issue) {
     return Promise.resolve(issue);
   } else {
@@ -151,17 +148,22 @@ exports.issue = function(key) {
         issue: key,
         fields: 'summary,updated,parent,issuetype,customfield_10006,customfield_10007'
       }
-    }, cacheKey).then(data => {
-      storeIssue(data);
+    }, `issue:${key}`).then(data => {
+      cache.storeIssue(data);
       return data;
     });
   }
 };
 
+/**
+ * Retrieve the worklogs for an issue
+ *
+ * @param {jira~Issue} issue - The issue
+ * @returns {Promise<Array<jira~Worklog>>} the list of worklogs
+ */
 exports.worklog = function(issue) {
   const key = issue.key;
-  const cacheKey = `worklog:${key}`;
-  const worklog = longCache.get(cacheKey);
+  const worklog = cache.getWorklogs(key);
   if (worklog && worklog.date >= issue.date) {
     return Promise.resolve(worklog.logs);
   } else {
@@ -169,12 +171,9 @@ exports.worklog = function(issue) {
       path: {
         issue: key
       }
-    }, cacheKey).then(data => {
+    }, `worklog:${key}`).then(data => {
       if (data.worklogs) {
-        longCache.set(cacheKey, {
-          logs: data.worklogs,
-          date: new Date()
-        });
+        cache.storeWorklogs(key, data.worklogs);
       } else {
         console.log(`Error retrieving worklogs for issue ${key}:`, data);
         return Promise.reject(new Error(`Error retrieving worklogs for issue ${key}`));
@@ -184,9 +183,13 @@ exports.worklog = function(issue) {
   }
 };
 
+/**
+ * Retrieve an user from jira
+ * @param {string} key - the user key
+ * @returns {Promise<jira~User>} The user
+ */
 exports.user = function(key) {
-  const cacheKey = `user:${key}`;
-  const user = longCache.get(cacheKey);
+  const user = cache.getUser(key);
   if (user) {
     return Promise.resolve(user);
   } else {
@@ -194,9 +197,9 @@ exports.user = function(key) {
       parameters: {
         key
       }
-    }, cacheKey).then(data => {
+    }, `user:${key}`).then(data => {
       if (data.key) {
-        longCache.set(cacheKey, data);
+        cache.storeUser(data);
         return data;
       } else {
         throw new Error(`Error retrieving user ${key}: ${data.errorMessages}`);
@@ -205,9 +208,14 @@ exports.user = function(key) {
   }
 };
 
+/**
+ * Retrieve the list of sprints for a board
+ *
+ * @param {int|string} boardId - it of the board
+ * @returns {Promise<Array<jira~Sprint>>} the list of sprints
+ */
 exports.sprints = function(boardId) {
-  const cacheKey = `sprints:${boardId}`;
-  const sprints = mediumCache.get(cacheKey);
+  const sprints = cache.getSprints(boardId);
   if (sprints) {
     return Promise.resolve(sprints);
   } else {
@@ -216,10 +224,11 @@ exports.sprints = function(boardId) {
         board: boardId
       },
       parameters: {
+        maxResults: 1000,
         state: 'active,closed'
       }
-    }, cacheKey).then(data => {
-      mediumCache.set(cacheKey, data);
+    }, `sprints:${boardId}}`).then(data => {
+      cache.storeSprints(boardId, data);
       return data;
     });
   }
