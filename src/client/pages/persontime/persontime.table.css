@@ -39,6 +39,7 @@ table.jtime-persontime-table {
       em.totalDay {
         float: right;
 
+        color: transparent;
         font-size: 60%;
         font-style: normal;
         font-weight: normal;
