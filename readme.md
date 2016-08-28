@@ -16,7 +16,6 @@ Installation
 4. 
     - For dev just run  
         `gulp`
-
     - To run in production mode  
         `gulp build`  
         `npm start`
